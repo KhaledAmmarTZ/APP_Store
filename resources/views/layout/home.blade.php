@@ -14,8 +14,11 @@
     <style>
         body {
             background-color: #101014;
-            color: #ffffff; /* Optional: Adjust text color for better contrast */
+            color: #ffffff;
         }
+        .offcanvas {
+        backdrop-filter: blur(5px); 
+    }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -23,7 +26,10 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">APP Store</a>
+            <a class="navbar-brand d-flex align-items-center" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                <img src="{{ asset('System_image/logo 2.png') }}" alt="Logo" width="30" height="50" class="d-inline-block align-text-top">
+                <span class="font-weight-bold">APP Store</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -90,14 +96,8 @@
     </div>
 
     <!-- Main Content -->
-    <div class="container mt-5 flex-grow-1">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h1>Welcome to APP Store</h1>
-                <p class="lead">Your one-stop shop for all your app needs.</p>
-                <a href="#" class="btn btn-primary">Get Started</a>
-            </div>
-        </div>
+    <div class="content">
+        @yield('content')
     </div>
 
     <!-- Footer -->
@@ -119,6 +119,7 @@
             const navbar = document.querySelector('.navbar');
             const footer = document.querySelector('footer');
             const themeToggle = document.getElementById('themeToggle');
+            const offcanvas = document.querySelector('.offcanvas');
 
             function applyTheme(isDark) {
                 if (isDark) {
@@ -139,6 +140,9 @@
                     themeToggle.classList.add('bi-moon-stars-fill');
                     themeToggle.classList.remove('text-dark');
                     themeToggle.classList.add('text-warning');
+
+                    offcanvas.style.backgroundColor = 'rgba(16, 16, 20, 0.5)';
+                    offcanvas.style.color = '#ffffff';
                 } else {
                     body.classList.remove('dark-mode');
                     body.style.backgroundColor = '#ffffff';
@@ -157,13 +161,14 @@
                     themeToggle.classList.add('bi-brightness-high');
                     themeToggle.classList.remove('text-warning');
                     themeToggle.classList.add('text-dark');
+
+                    offcanvas.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
+                    offcanvas.style.color = '#000000';
                 }
             }
 
-            // Initial setup based on system theme
             applyTheme(prefersDark);
 
-            // Manual toggle
             themeToggle.addEventListener('click', () => {
                 const isDark = body.classList.contains('dark-mode');
                 applyTheme(!isDark);
