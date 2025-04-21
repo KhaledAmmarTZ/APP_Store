@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,10 +25,10 @@
 <body class="d-flex flex-column min-vh-100">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                <img src="{{ asset('System_image/logo 2.png') }}" alt="Logo" width="30" height="50" class="d-inline-block align-text-top">
+                <img src="{{ asset('System_image/logo 2.png') }}" alt="Logo" width="30" height="50" class="d-inline-block align-text-top me-2">
                 <span class="font-weight-bold">APP Store</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,17 +38,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="storeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Store
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="storeDropdown">
-                            <li><a class="dropdown-item" href="#">Apps</a></li>
-                            <li><a class="dropdown-item" href="#">Games</a></li>
-                            <li><a class="dropdown-item" href="#">Categories</a></li>
-                        </ul>
+                        <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Pricing</a>
@@ -69,8 +60,10 @@
         </div>
     </nav>
 
+    
+
     <!-- Offcanvas -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">APP Store</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -96,17 +89,16 @@
     </div>
 
     <!-- Main Content -->
-    <div class="content">
+    <div class="content" style="margin-top: 56px;">
         @yield('content')
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-center text-lg-start mt-auto">
+    <footer class="bg-dark text-center text-lg-start mt-auto" style="clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);">
         <div class="text-center p-3">
             © 2023 APP Store. All rights reserved.
         </div>
     </footer>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
