@@ -25,7 +25,7 @@
 <body class="d-flex flex-column min-vh-100">
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                 <img src="{{ asset('System_image/logo 2.png') }}" alt="Logo" width="30" height="50" class="d-inline-block align-text-top me-2">
@@ -104,7 +104,6 @@
 
     <!-- Theme Toggle Script -->
     <script>
-    // Detect system preference on first load
         window.addEventListener('DOMContentLoaded', () => {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const body = document.body;
