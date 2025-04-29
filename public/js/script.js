@@ -6,6 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const footer = document.querySelector('footer');
     const themeToggle = document.getElementById('themeToggle');
     const offcanvas = document.querySelector('.offcanvas');
+    const themeLinks = document.querySelectorAll('.theme-link');
 
     function applyTheme(isDark) {
         if (isDark) {
@@ -29,6 +30,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
             offcanvas.style.backgroundColor = 'rgba(16, 16, 20, 0.5)';
             offcanvas.style.color = '#ffffff';
+
+            themeLinks.forEach(link => {
+                link.style.color = '#ffffff';
+            });
         } else {
             body.classList.remove('dark-mode');
             body.style.backgroundColor = '#ffffff';
@@ -50,6 +55,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
             offcanvas.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
             offcanvas.style.color = '#000000';
+
+            themeLinks.forEach(link => {
+                link.style.color = '#000000'; 
+            });
         }
     }
 
@@ -143,4 +152,29 @@ mainCarousel.addEventListener('slide.bs.carousel', function (event) {
 window.addEventListener('load', function () {
     const initialThumb = document.getElementById('thumbnail-0').parentElement;
     initialThumb.classList.add('thumbnail-active');
+});
+
+
+// Search Modal Script 
+document.addEventListener('DOMContentLoaded', function () {
+    const modalElement = document.getElementById('searchModal');
+    const modal = new bootstrap.Modal(modalElement);
+    const modalInput = document.getElementById('modalSearchInput');
+    const mainInput = document.querySelector('form.d-sm-flex input[name="query"]');
+
+    modalInput.addEventListener('input', () => mainInput.value = modalInput.value);
+    mainInput.addEventListener('input', () => modalInput.value = mainInput.value);
+    window.addEventListener('resize', function () {
+        const isSmallScreen = window.innerWidth < 576;
+        if (!isSmallScreen && modalElement.classList.contains('show')) {
+            modal.hide();
+            if (modalInput.value.trim() !== '') {
+                mainInput.value = modalInput.value.trim();
+            }
+        }
+    });
+    const modalForm = document.getElementById('modalSearchForm');
+    modalForm.addEventListener('submit', function () {
+        modal.hide();
+    });
 });
