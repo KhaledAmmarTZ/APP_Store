@@ -159,6 +159,90 @@
         </div>
     @endfor
     </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mt-3">
+    @for ($i = 0; $i < 3; $i++)
+        <div class="col">
+            <div class="card h-100 bg-transparent theme-link">
+                <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $titles[$i] }}</h5>
+                    <p class="card-text " style="font-weight: bold;">{{ $price[$i] }}</p>                
+                </div>
+            </div>
+        </div>
+    @endfor
+    </div>
 </div>
 
+
+<!-- Section: Featured discounts -->
+<div class="container my-4">
+    <div class="row align-items-center justify-content-between">
+        <!-- Left Section: Text and Icon -->
+        <div class="col">
+            <span style="font-size: 1.5rem; font-weight: bold;">
+                Featured discounts 
+                <a href="/discount" class="text-decoration-none theme-link" style="font-size: 1.5rem;">
+                    &gt;
+                </a>
+            </span>
+        </div>
+
+        <!-- Right Section: Navigation Buttons -->
+        <div class="col-auto">
+            <a href="#" class="btn btn-outline-secondary btn-sm me-2" title="Previous">
+                &lt;
+            </a>
+            <a href="#" class="btn btn-outline-secondary btn-sm" title="Next">
+                &gt;
+            </a>
+        </div>
+    </div>
+
+    <!-- Card Grid -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 mt-3">
+    @php
+        $titles = ['Clash of Clans', 'Call of Duty', 'PUBG Mobile', 'Among Us', 'Genshin Impact'];
+        $price =['$0.99', '$1.99', '$2.99', '$3.99', '$4.99'];
+        $discount_price =['$0.56', '$1.4', '$2.22', '$3.34', '$1.99'];
+    @endphp
+
+    @for ($i = 0; $i < 5; $i++)
+        <div class="col">
+            <div class="card h-100 bg-transparent theme-link">
+                <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $titles[$i] }}</h5>
+                    <div class="col d-12 d-flex justify-content-between align-items-center">
+                    <p class="card-text text-muted" style="font-weight: bold; text-decoration: line-through">{{ $price[$i] }}</p>
+                    <p class="card-text" style="font-weight: bold;">{{ $discount_price[$i] }}</p>
+                    </div>
+                </div>
+                {{-- <div class="card-footer">
+                    <small class="text-body-secondary">Last updated 3 mins ago</small>
+                </div> --}}
+            </div>
+        </div>
+    @endfor
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mt-3">
+    @for ($i = 0; $i < 3; $i++)
+        <div class="col">
+            <div class="card h-100 bg-transparent theme-link">
+                <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $titles[$i] }}</h5>
+                    <div class="col d-12 d-flex justify-content-between align-items-center">
+
+                    <p class="card-text text-muted" style="font-weight: bold; text-decoration: line-through">{{ $price[$i] }}</p>
+                    <p class="card-text " style="font-weight: bold;">{{ $discount_price[$i] }}</p>
+                    </div>                
+                </div>
+            </div>
+        </div>
+    @endfor
+    </div>
+</div>
 @endsection
