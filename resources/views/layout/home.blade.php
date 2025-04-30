@@ -41,7 +41,7 @@
                     <a href="#" class="btn btn-outline-primary">Sign In</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="btn btn-outline-success">Download</a>
+                    <a href="{{url('/download')}}" class="btn btn-outline-success">Download</a>
                 </li>
             </ul>
         </div>
@@ -79,6 +79,7 @@
     @yield('content')
 </div>
 
+<hr style="hight:2px; color: transparent !important;"></hr>
 <!-- Footer -->
 <footer class="bg-dark text-center text-lg-start mt-auto" style="clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);">
     <div class="text-center p-3">

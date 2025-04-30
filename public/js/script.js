@@ -115,9 +115,9 @@ images.forEach((image, index) => {
 
     const thumbnailCard = document.createElement('div');
     thumbnailCard.classList.add('card');
-    thumbnailCard.style.maxHeight = '100px';
+    thumbnailCard.style.maxHeight = '120px';
     thumbnailCard.style.overflow = 'hidden';
-    thumbnailCard.style.marginBottom = '10px';
+    thumbnailCard.style.marginBottom = '5px';
     thumbnailCard.style.cursor = 'pointer';
     thumbnailCard.style.position = 'relative';
     thumbnailCard.style.borderColor = 'transparent';
