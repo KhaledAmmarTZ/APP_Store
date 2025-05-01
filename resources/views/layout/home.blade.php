@@ -81,11 +81,128 @@
 
 <hr style="hight:2px; color: transparent !important;"></hr>
 <!-- Footer -->
-<footer class="bg-dark text-center text-lg-start mt-auto" style="clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);">
-    <div class="text-center p-3">
-        © 2023 APP Store. All rights reserved.
+<footer class="bg-dark   text-lg-start mt-auto theme-link" style="clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%, 0 10px);">
+  <div class="container py-5 position-relative theme-link">
+
+    <!-- Top row with STORE and social icons -->
+    <div class="d-flex justify-content-between align-items-center mb-4 theme-link">
+      <h5 class="fw-bold theme-link">STORE</h5>
+      <div class="d-flex gap-3 theme-link">
+        <a href="#" class="  theme-link"><i class="fab fa-facebook-f theme-link"></i></a>
+        <a href="#" class="  theme-link"><i class="fab fa-youtube theme-link"></i></a>
+        <a href="#" class="  theme-link"><i class="fab fa-instagram theme-link"></i></a>
+      </div>
     </div>
+
+    <!-- Footer columns -->
+    <div class="row theme-link">
+      <div class="col-md-2 theme-link">
+        <h6 class="fw-bold mb-3 theme-link">Games</h6>
+        <ul class="list-unstyled theme-link">
+          <li><a href="#" class=" text-decoration-none theme-link">Fortnite</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Fall Guys</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Rocket League</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Unreal Tournament</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Infinity Blade</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Shadow Complex</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Robo Recall</a></li>
+        </ul>
+      </div>
+      <div class="col-md-2 theme-link">
+        <h6 class="fw-bold mb-3 theme-link">Marketplaces</h6>
+        <ul class="list-unstyled theme-link">
+          <li><a href="#" class="  text-decoration-none theme-link">Epic Games Store</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Fab</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Sketchfab</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">ArtStation</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Store Refund Policy</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Store EULA</a></li>
+        </ul>
+      </div>
+      <div class="col-md-2 theme-link">
+        <h6 class="fw-bold mb-3 theme-link">Tools</h6>
+        <ul class="list-unstyled theme-link">
+          <li><a href="#" class="  text-decoration-none theme-link">Unreal Engine</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">UEFN</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">MetaHuman</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Twinmotion</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Megascans</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">RealityScan</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Rad Game Tools</a></li>
+        </ul>
+      </div>
+      <div class="col-md-2 theme-link">
+        <h6 class="fw-bold mb-3 theme-link">Online Services</h6>
+        <ul class="list-unstyled theme-link">
+          <li><a href="#" class="  text-decoration-none theme-link">Epic Online Services</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Kids Web Services</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Services Agreement</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Acceptable Use Policy</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Trust Statement</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Subprocessor List</a></li>
+        </ul>
+      </div>
+      <div class="col-md-2 theme-link">
+        <h6 class="fw-bold mb-3 theme-link">Company</h6>
+        <ul class="list-unstyled theme-link">
+          <li><a href="#" class="  text-decoration-none theme-link">About</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Newsroom</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Careers</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Students</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">UX Research</a></li>
+        </ul>
+      </div>
+      <div class="col-md-2 theme-link">
+        <h6 class="fw-bold mb-3 theme-link">Resources</h6>
+        <ul class="list-unstyled theme-link">
+          <li><a href="#" class="  text-decoration-none theme-link">Dev Community</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">MegaGrants</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Support-A-Creator</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Creator Agreement</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Distribute on Epic Games</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Unreal Engine Branding</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Fan Art Policy</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Community Rules</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">EU DSA Info</a></li>
+          <li><a href="#" class="  text-decoration-none theme-link">Epic Pro Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="border-light my-4 theme-link">
+
+    <!-- Bottom legal text and links -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center theme-link">
+      <p class="mb-2 mb-md-0 small theme-link">
+        © 2025, Epic Games, Inc. All rights reserved.
+      </p>
+      <div class="d-flex gap-3 flex-wrap theme-link">
+        <a href="#" class="  text-decoration-none small theme-link">Terms of Service</a>
+        <a href="#" class="  text-decoration-none small theme-link">Privacy Policy</a>
+        <a href="#" class="  text-decoration-none small theme-link">Safety & Security</a>
+        <a href="#" class="  text-decoration-none small theme-link">Store Refund Policy</a>
+        <a href="#" class="  text-decoration-none small theme-link">Publisher Index</a>
+      </div>
+    </div>
+
+    <!-- Back to top button -->
+    <div class="text-end mt-3 theme-link">
+        <button id="backToTopButton" class="btn btn-secondary btn-sm theme-link">Back to top</button>
+    </div>
+  </div>
 </footer>
+<script>
+    document.getElementById('backToTopButton').addEventListener('click', function () {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' 
+        });
+    });
+</script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
