@@ -178,3 +178,10 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.hide();
     });
 });
+// Back to Top Button Script
+document.getElementById('backToTopButton').addEventListener('click', function () {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' 
+    });
+});

@@ -139,37 +139,42 @@
 
     <!-- Card Grid -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 mt-3">
-    @php
-        $titles = ['Clash of Clans', 'Call of Duty', 'PUBG Mobile', 'Among Us', 'Genshin Impact'];
-        $price =['$0.99', '$1.99', '$2.99', '$3.99', '$4.99'];
-    @endphp
+        @php
+            $titles = ['Clash of Clans', 'Call of Duty', 'PUBG Mobile', 'Among Us', 'Genshin Impact'];
+            $price = ['$0.99', '$1.99', '$2.99', '$3.99', '$4.99'];
+            $discount_price = ['$0.56', '$1.4', '$2.22', '$3.34', '$1.99'];
+        @endphp
 
-    @for ($i = 0; $i < 5; $i++)
-        <div class="col">
-            <div class="card h-100 bg-transparent theme-link">
-                <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $titles[$i] }}</h5>
-                    <p class="card-text " style="font-weight: bold;">{{ $price[$i] }}</p>
-                </div>
-                {{-- <div class="card-footer">
-                    <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div> --}}
+        @for ($i = 0; $i < 5; $i++)
+            <div class="col">
+                <a href="/details/{{ $titles[$i] }}" class="text-decoration-none theme-link">
+                    <div class="card h-100 bg-transparent theme-link">
+                        <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $titles[$i] }}</h5>
+                            <div class="col d-12 d-flex justify-content-between align-items-center">
+                                <p class="card-text text-muted" style="font-weight: bold; text-decoration: line-through">{{ $price[$i] }}</p>
+                                <p class="card-text" style="font-weight: bold;">{{ $discount_price[$i] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </div>
-    @endfor
+        @endfor
     </div>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mt-3">
     @for ($i = 0; $i < 3; $i++)
         <div class="col">
-            <div class="card h-100 bg-transparent theme-link">
-                <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $titles[$i] }}</h5>
-                    <p class="card-text " style="font-weight: bold;">{{ $price[$i] }}</p>                
+            <a href="/details/{{ $titles[$i] }}" class="text-decoration-none theme-link">
+                <div class="card h-100 bg-transparent theme-link">
+                    <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $titles[$i] }}</h5>
+                        <p class="card-text " style="font-weight: bold;">{{ $price[$i] }}</p>                
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     @endfor
     </div>
@@ -202,47 +207,98 @@
 
     <!-- Card Grid -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 mt-3">
-    @php
-        $titles = ['Clash of Clans', 'Call of Duty', 'PUBG Mobile', 'Among Us', 'Genshin Impact'];
-        $price =['$0.99', '$1.99', '$2.99', '$3.99', '$4.99'];
-        $discount_price =['$0.56', '$1.4', '$2.22', '$3.34', '$1.99'];
-    @endphp
+        @php
+            $titles = ['Clash of Clans', 'Call of Duty', 'PUBG Mobile', 'Among Us', 'Genshin Impact'];
+            $price = ['$0.99', '$1.99', '$2.99', '$3.99', '$4.99'];
+            $discount_price = ['$0.56', '$1.4', '$2.22', '$3.34', '$1.99'];
+        @endphp
 
-    @for ($i = 0; $i < 5; $i++)
-        <div class="col">
-            <div class="card h-100 bg-transparent theme-link">
-                <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $titles[$i] }}</h5>
-                    <div class="col d-12 d-flex justify-content-between align-items-center">
-                    <p class="card-text text-muted" style="font-weight: bold; text-decoration: line-through">{{ $price[$i] }}</p>
-                    <p class="card-text" style="font-weight: bold;">{{ $discount_price[$i] }}</p>
+        @for ($i = 0; $i < 5; $i++)
+            <div class="col">
+                <a href="/details/{{ $titles[$i] }}" class="text-decoration-none theme-link">
+                    <div class="card h-100 bg-transparent theme-link">
+                        <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $titles[$i] }}</h5>
+                            <div class="col d-12 d-flex justify-content-between align-items-center">
+                                <p class="card-text text-muted" style="font-weight: bold; text-decoration: line-through">{{ $price[$i] }}</p>
+                                <p class="card-text" style="font-weight: bold;">{{ $discount_price[$i] }}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                {{-- <div class="card-footer">
-                    <small class="text-body-secondary">Last updated 3 mins ago</small>
-                </div> --}}
+                </a>
             </div>
-        </div>
-    @endfor
+        @endfor
     </div>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mt-3">
-    @for ($i = 0; $i < 3; $i++)
-        <div class="col">
-            <div class="card h-100 bg-transparent theme-link">
-                <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $titles[$i] }}</h5>
-                    <div class="col d-12 d-flex justify-content-between align-items-center">
-
-                    <p class="card-text text-muted" style="font-weight: bold; text-decoration: line-through">{{ $price[$i] }}</p>
-                    <p class="card-text " style="font-weight: bold;">{{ $discount_price[$i] }}</p>
-                    </div>                
-                </div>
+        @for ($i = 0; $i < 3; $i++)
+            <div class="col">
+                <a href="/details/{{ $titles[$i] }}" class="text-decoration-none theme-link">
+                    <div class="card h-100 bg-transparent theme-link">
+                        <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $titles[$i] }}</h5>
+                            <div class="col d-12 d-flex justify-content-between align-items-center">
+                                <p class="card-text text-muted" style="font-weight: bold; text-decoration: line-through">{{ $price[$i] }}</p>
+                                <p class="card-text" style="font-weight: bold;">{{ $discount_price[$i] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </div>
-    @endfor
+        @endfor
     </div>
+</div>
+
+<div class="container my-4">
+  <div class="bg-dark text-white p-4 rounded-4">
+    <!-- Header with Icon -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h5 class="mb-0">
+        <i class="fas fa-gift me-2"></i> Free Games
+      </h5>
+      <button class="btn btn-outline-light btn-sm">View More</button>
+    </div>
+
+    <!-- Cards Row -->
+    <div class="row g-3">
+      <!-- Card 1 -->
+      <div class="col-md-4">
+        <div class="card bg-dark text-white border-radius-3">
+          <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top rounded-top" alt="Albion">
+          <div class="bg-primary text-center py-1 fw-bold rounded-bottom">FREE NOW</div>
+          <div class="card-body px-0">
+            <h6 class="card-title mb-1">Albion Online Free Welcome Gift</h6>
+            <p class="card-text small">Free Now – May 01 at 09:00 PM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-4">
+        <div class="card bg-dark text-white border-0">
+          <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top rounded-top" alt="CHUCHEL">
+          <div class="bg-primary text-center py-1 fw-bold rounded-bottom">FREE NOW</div>
+          <div class="card-body px-0">
+            <h6 class="card-title mb-1">CHUCHEL</h6>
+            <p class="card-text small">Free Now – May 01 at 09:00 PM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-4">
+        <div class="card bg-dark text-white border-0">
+          <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top rounded-top" alt="Super Space Club">
+          <div class="bg-black text-center py-1 fw-bold rounded-bottom">COMING SOON</div>
+          <div class="card-body px-0">
+            <h6 class="card-title mb-1">Super Space Club</h6>
+            <p class="card-text small">Free May 01 – May 08</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
