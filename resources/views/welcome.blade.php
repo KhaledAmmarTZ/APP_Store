@@ -301,4 +301,101 @@
     </div>
   </div>
 </div>
+
+<div class="container my-5">
+  <div class="row text-white">
+    <!-- Top Sellers -->
+    <div class="col-md-4 mb-4">
+      <h5 class="fw-bold mb-3">Top Sellers <span class="ms-1">&gt;</span></h5>
+      <div class="d-flex flex-column gap-3">
+        <!-- Card Item -->
+        <div class="d-flex game-card p-2">
+            <img src="{{ asset('System_image/game1.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Clair Obscur">
+            <div>
+                <h6 class="mb-1 fw-semibold">Clair Obscur: Expedition 33</h6>
+                <small>$34.99</small>
+            </div>
+        </div>
+
+
+        <div class="d-flex game-card p-2">
+          <img src="{{ asset('System_image/game2.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Dead by Daylight">
+          <div>
+            <h6 class="mb-1 fw-semibold">Dead by Daylight</h6>
+            <small>$9.99</small>
+          </div>
+        </div>
+
+        <div class="d-flex game-card p-2">
+          <img src="{{ asset('System_image/game3.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="GTA V">
+          <div>
+            <h6 class="mb-1 fw-semibold">Grand Theft Auto V Enhanced</h6>
+            <small>$29.99</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Most Played -->
+    <div class="col-md-4 mb-4">
+      <h5 class="fw-bold mb-3">Most Played <span class="ms-1">&gt;</span></h5>
+      <div class="d-flex flex-column gap-3">
+        <div class="d-flex game-card p-2">
+          <img src="{{ asset('System_image/fortnite.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Fortnite">
+          <div>
+            <h6 class="mb-1 fw-semibold">Fortnite</h6>
+            <small>Free</small>
+          </div>
+        </div>
+
+        <div class="d-flex game-card p-2">
+          <img src="{{ asset('System_image/rocketleague.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Rocket League">
+          <div>
+            <h6 class="mb-1 fw-semibold">Rocket League®</h6>
+            <small>Free</small>
+          </div>
+        </div>
+
+        <div class="d-flex game-card p-2">
+          <img src="{{ asset('System_image/valorant.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Valorant">
+          <div>
+            <h6 class="mb-1 fw-semibold">VALORANT</h6>
+            <small>Free</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Upcoming Wishlisted -->
+    <div class="col-md-4 mb-4">
+      <h5 class="fw-bold mb-3">Top Upcoming Wishlisted <span class="ms-1">&gt;</span></h5>
+      <div class="d-flex flex-column gap-3">
+        <div class="d-flex game-card p-2">
+          <img src="{{ asset('System_image/borderlands4.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Borderlands 4">
+          <div>
+            <h6 class="mb-1 fw-semibold">Borderlands 4</h6>
+            <small>Available 09/12/25</small>
+          </div>
+        </div>
+
+        <div class="d-flex game-card p-2">
+          <img src="{{ asset('System_image/lowlifeforms.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Lowlife Forms">
+          <div>
+            <h6 class="mb-1 fw-semibold">Lowlife Forms</h6>
+            <small>Coming Soon</small>
+          </div>
+        </div>
+
+        <div class="d-flex game-card p-2">
+          <img src="{{ asset('System_image/dyinglight.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Dying Light">
+          <div>
+            <h6 class="mb-1 fw-semibold">Dying Light: The Beast</h6>
+            <small>Coming Soon</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection

@@ -37,3 +37,12 @@ backdrop-filter: blur(5px);
         border: none !important;
         box-shadow: none !important;
     }
+
+.game-card {
+  transition: all 0.3s ease;
+}
+
+.game-card:hover {
+  background-color: #1c1c1c; 
+  border-radius: 1rem;       
+}
