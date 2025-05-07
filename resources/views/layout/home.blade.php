@@ -34,52 +34,54 @@
             </ul>
 
             <ul class="navbar-nav align-items-center">
+                <!-- this section is more manully change the dark mode icon to light mode icon and vice versa -->
                 <li class="nav-item me-3">
                     <i id="themeToggle" class="bi bi-moon-stars-fill fs-4 text-warning" style="cursor: pointer;" title="Toggle Theme"></i>
                 </li>
+                <!-- this section is automatically change the dark mode icon to light mode icon and vice versa from the system -->
                 <!-- <li class="nav-item me-3">
-    <i id="themeToggle" 
-       class="bi bi-moon-stars-fill fs-4 text-warning" 
-       style="visibility: hidden; pointer-events: none; user-select: none;" 
-       title="Toggle Theme"></i>
-</li>
+                    <i id="themeToggle" 
+                    class="bi bi-moon-stars-fill fs-4 text-warning" 
+                    style="visibility: hidden; pointer-events: none; user-select: none;" 
+                    title="Toggle Theme"></i>
+                </li>
 
-<script>
-    // Automatically follow system appearance for dark or light mode
-    const themeToggle = document.getElementById('themeToggle');
+                <script>
+                    // Automatically follow system appearance for dark or light mode
+                    const themeToggle = document.getElementById('themeToggle');
 
-    // Check system appearance and apply the appropriate theme
-    function applySystemTheme() {
-        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (isDarkMode) {
-            document.body.classList.add('dark-mode');
-            document.body.classList.remove('light-mode');
-        } else {
-            document.body.classList.add('light-mode');
-            document.body.classList.remove('dark-mode');
-        }
-    }
+                    // Check system appearance and apply the appropriate theme
+                    function applySystemTheme() {
+                        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        if (isDarkMode) {
+                            document.body.classList.add('dark-mode');
+                            document.body.classList.remove('light-mode');
+                        } else {
+                            document.body.classList.add('light-mode');
+                            document.body.classList.remove('dark-mode');
+                        }
+                    }
 
-    // Listen for system appearance changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
+                    // Listen for system appearance changes
+                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
-    // Apply the theme on page load
-    applySystemTheme();
-</script> -->
+                    // Apply the theme on page load
+                    applySystemTheme();
+                </script> -->
                 <li class="nav-item me-2">
                 @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
                         <a
                             href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                            class="btn btn-dashboard"
                         >
                             Dashboard
                         </a>
                     @else
                         <a
                             href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                           class="btn btn-login"
                         >
                             Log in
                         </a>
@@ -87,7 +89,8 @@
                         @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                class="btn btn-register" 
+                            >   
                                 Register
                             </a>
                         @endif
@@ -128,14 +131,14 @@
                     @auth
                         <a
                             href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                            class="btn btn-dashboard"
                         >
                             Dashboard
                         </a>
                     @else
                         <a
                             href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                            class="btn btn-login"
                         >
                             Log in
                         </a>
@@ -143,7 +146,8 @@
                         @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                class="btn btn-register"
+                            >
                                 Register
                             </a>
                         @endif

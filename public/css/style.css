@@ -59,3 +59,53 @@ body.dark-mode .game-card:hover {
 
 }
 
+.btn-login {
+    background-color: #ffffff;
+    color: #000000;
+}
+body.dark-mode .btn-login:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+body:not(.dark-mode) .btn-login {
+    background-color: #000000;
+    color: #ffffff;
+}
+body:not(.dark-mode) .btn-login:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.btn-register {
+    background-color: #ffffff;
+    color: #000000;
+}
+body.dark-mode .btn-register:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+body:not(.dark-mode) .btn-register {
+    background-color: #000000;
+    color: #ffffff;
+}
+body:not(.dark-mode) .btn-register:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.btn-dashboard {
+    background-color: #ffffff;
+    color: #000000;
+}
+body.dark-mode .btn-dashboard:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+body:not(.dark-mode) .btn-dashboard {
+    background-color: #000000;
+    color: #ffffff;
+}
+body:not(.dark-mode) .btn-dashboard:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
