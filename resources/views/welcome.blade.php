@@ -302,10 +302,10 @@
   </div>
 </div>
 
-<div class="container my-5">
-  <div class="row text-white">
+<div class="container my-5 theme-link">
+  <div class="row text-white theme-link">
     <!-- Top Sellers -->
-    <div class="col-md-4 mb-4">
+    <div class="col-md-4 mb-4 theme-link">
       <h5 class="fw-bold mb-3">Top Sellers <span class="ms-1">&gt;</span></h5>
       <div class="d-flex flex-column gap-3">
         <!-- Card Item -->
@@ -337,7 +337,8 @@
     </div>
 
     <!-- Most Played -->
-    <div class="col-md-4 mb-4">
+
+    <div class="col-md-4 mb-4 theme-link">
       <h5 class="fw-bold mb-3">Most Played <span class="ms-1">&gt;</span></h5>
       <div class="d-flex flex-column gap-3">
         <div class="d-flex game-card p-2">
@@ -367,29 +368,29 @@
     </div>
 
     <!-- Top Upcoming Wishlisted -->
-    <div class="col-md-4 mb-4">
-      <h5 class="fw-bold mb-3">Top Upcoming Wishlisted <span class="ms-1">&gt;</span></h5>
-      <div class="d-flex flex-column gap-3">
-        <div class="d-flex game-card p-2">
-          <img src="{{ asset('System_image/borderlands4.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Borderlands 4">
+    <div class="col-md-4 mb-4 theme-link">
+      <h5 class="fw-bold mb-3 theme-link">Top Upcoming Wishlisted <span class="ms-1">&gt;</span></h5>
+      <div class="d-flex flex-column gap-3 theme-link">
+        <div class="d-flex game-card p-2 theme-link">
+          <img src="{{ asset('System_image/borderlands4.jpg') }}" class="rounded-3 me-3 theme-link" width="80" height="100" alt="Borderlands 4">
           <div>
-            <h6 class="mb-1 fw-semibold">Borderlands 4</h6>
+            <h6 class="mb-1 fw-semibold theme-link">Borderlands 4</h6>
             <small>Available 09/12/25</small>
           </div>
         </div>
 
-        <div class="d-flex game-card p-2">
-          <img src="{{ asset('System_image/lowlifeforms.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Lowlife Forms">
+        <div class="d-flex game-card p-2 theme-link">
+          <img src="{{ asset('System_image/lowlifeforms.jpg') }}" class="rounded-3 me-3 theme-link" width="80" height="100" alt="Lowlife Forms">
           <div>
-            <h6 class="mb-1 fw-semibold">Lowlife Forms</h6>
+            <h6 class="mb-1 fw-semibold theme-link">Lowlife Forms</h6>
             <small>Coming Soon</small>
           </div>
         </div>
 
-        <div class="d-flex game-card p-2">
-          <img src="{{ asset('System_image/dyinglight.jpg') }}" class="rounded-3 me-3" width="80" height="100" alt="Dying Light">
+        <div class="d-flex game-card p-2 theme-link">
+          <img src="{{ asset('System_image/dyinglight.jpg') }}" class="rounded-3 me-3 theme-link" width="80" height="100" alt="Dying Light">
           <div>
-            <h6 class="mb-1 fw-semibold">Dying Light: The Beast</h6>
+            <h6 class="mb-1 fw-semibold theme-link">Dying Light: The Beast</h6>
             <small>Coming Soon</small>
           </div>
         </div>

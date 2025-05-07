@@ -37,8 +37,63 @@
                 <li class="nav-item me-3">
                     <i id="themeToggle" class="bi bi-moon-stars-fill fs-4 text-warning" style="cursor: pointer;" title="Toggle Theme"></i>
                 </li>
+                <!-- <li class="nav-item me-3">
+    <i id="themeToggle" 
+       class="bi bi-moon-stars-fill fs-4 text-warning" 
+       style="visibility: hidden; pointer-events: none; user-select: none;" 
+       title="Toggle Theme"></i>
+</li>
+
+<script>
+    // Automatically follow system appearance for dark or light mode
+    const themeToggle = document.getElementById('themeToggle');
+
+    // Check system appearance and apply the appropriate theme
+    function applySystemTheme() {
+        const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+        } else {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+        }
+    }
+
+    // Listen for system appearance changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
+
+    // Apply the theme on page load
+    applySystemTheme();
+</script> -->
                 <li class="nav-item me-2">
-                    <a href="#" class="btn btn-outline-primary">Sign In</a>
+                @if (Route::has('login'))
+                <nav class="flex items-center justify-end gap-4">
+                    @auth
+                        <a
+                            href="{{ url('/dashboard') }}"
+                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                        >
+                            Dashboard
+                        </a>
+                    @else
+                        <a
+                            href="{{ route('login') }}"
+                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                        >
+                            Log in
+                        </a>
+
+                        @if (Route::has('register'))
+                            <a
+                                href="{{ route('register') }}"
+                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                Register
+                            </a>
+                        @endif
+                    @endauth
+                </nav>
+            @endif
                 </li>
                 <li class="nav-item">
                     <a href="{{url('/download')}}" class="btn btn-outline-success">Download</a>
@@ -68,8 +123,33 @@
             </div>
         </div>
         <div class="mt-auto">
-            <a href="#" class="btn btn-outline-primary w-100 mb-2">Sign In</a>
-            <a href="#" class="btn btn-outline-success w-100">Download</a>
+        @if (Route::has('login'))
+                <nav class="flex items-center justify-end gap-4">
+                    @auth
+                        <a
+                            href="{{ url('/dashboard') }}"
+                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                        >
+                            Dashboard
+                        </a>
+                    @else
+                        <a
+                            href="{{ route('login') }}"
+                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                        >
+                            Log in
+                        </a>
+
+                        @if (Route::has('register'))
+                            <a
+                                href="{{ route('register') }}"
+                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                                Register
+                            </a>
+                        @endif
+                    @endauth
+                </nav>
+            @endif
         </div>
     </div>
 </div>
