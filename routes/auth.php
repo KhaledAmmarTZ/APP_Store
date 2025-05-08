@@ -16,7 +16,6 @@ Route::middleware('guest')->group(function () {
 
     Volt::route('reset-password/{token}', 'auth.reset-password')
         ->name('password.reset');
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -33,3 +32,15 @@ Route::middleware('auth')->group(function () {
 
 Route::post('logout', App\Livewire\Actions\Logout::class)
     ->name('logout');
+
+// Vendor-specific routes
+Route::middleware(['auth', 'role:vendor'])->prefix('vendor')->name('vendor.')->group(function () {
+    Volt::route('dashboard', 'vendor.dashboard')
+        ->name('dashboard');
+
+    Volt::route('products', 'vendor.products')
+        ->name('products');
+
+    Volt::route('orders', 'vendor.orders')
+        ->name('orders');
+});
