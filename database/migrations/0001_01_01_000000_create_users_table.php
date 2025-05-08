@@ -15,13 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->date('date_of_birth')->nullable();
-            $table->string('role')->default('customer');
-            $table->string('profile_image')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('address')->nullable();
-            $table->string('nid')->nullable();
-            $table->string('passport')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
