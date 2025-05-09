@@ -36,13 +36,12 @@ class AdminLoginController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('admin')->logout();
+        Auth::guard('admin')->logout(); // Log out the admin user
 
-        $request->session()->invalidate();
+        $request->session()->invalidate(); // Invalidate the session
 
-        $request->session()->regenerateToken();
+        $request->session()->regenerateToken(); // Regenerate the CSRF token
 
-        return redirect('/');
+        return redirect()->route('admin.login'); // Redirect to the admin login page
     }
-    
 }
