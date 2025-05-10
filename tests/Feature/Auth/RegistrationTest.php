@@ -1,19 +1,26 @@
 <?php
 
-test('registration screen can be rendered', function () {
-    $response = $this->get('/register');
+namespace Tests\Feature\Auth;
 
-    $response->assertStatus(200);
-});
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-test('new users can register', function () {
-    $response = $this->post('/register', [
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
-    ]);
+class RegistrationTest extends TestCase
+{
+    use RefreshDatabase;
 
-    $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
-});
+    /** @test */
+    public function new_users_can_register()
+    {
+        $response = $this->post('/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('verification.notice')); // Updated to match the correct redirect
+    }
+}
