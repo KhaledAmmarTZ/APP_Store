@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -44,6 +44,35 @@
                         </p>
                     @endif
                 </div>
+            @endif
+        </div>
+
+        <div>
+            <x-input-label for="date_of_birth" :value="__('Date of Birth')" />
+            <x-text-input id="date_of_birth" name="date_of_birth" type="date" class="mt-1 block w-full" :value="old('date_of_birth', $user->date_of_birth)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('date_of_birth')" />
+        </div>
+        <div>
+            <x-input-label for="phoneNumber" :value="__('Phone Number')" />
+            <x-text-input id="phoneNumber" name="phoneNumber" type="text" class="mt-1 block w-full" :value="old('phoneNumber', $user->phoneNumber)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('phoneNumber')" />
+        </div>
+        <div>
+            <x-input-label for="place" :value="__('Place')" />
+            <x-text-input id="place" name="place" type="text" class="mt-1 block w-full" :value="old('place', $user->place)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('place')" />
+        </div>
+        <div>
+            <x-input-label for="user_nid" :value="__('User NID')" />
+            <x-text-input id="user_nid" name="user_nid" type="text" class="mt-1 block w-full" :value="old('user_nid', $user->user_nid)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('user_nid')" />
+        </div>
+        <div>
+            <x-input-label for="user_image" :value="__('User Image')" />
+            <x-text-input id="user_image" name="user_image" type="file" class="mt-1 block w-full" accept="image/*" />
+            <x-input-error class="mt-2" :messages="$errors->get('user_image')" />
+            @if ($user->user_image)
+                <img src="{{ asset('storage/' . $user->user_image) }}" alt="User Image" class="img-thumbnail mt-2" width="150">
             @endif
         </div>
 
