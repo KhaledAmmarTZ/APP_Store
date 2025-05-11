@@ -20,51 +20,73 @@
         </h2>
     </div>
 
-    <!-- Update Profile Information Section -->
+    <!-- Profile Update Form -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <h5 class="card-title">Update Profile Information</h5>
-            <form method="POST" action="{{ route('admin.profile.update') }}">
+            <form method="POST" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data">
                 @csrf
-                @method('patch')
+                @method('PATCH')
 
+                <!-- Name -->
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" required value="{{ old('name', $admin->name) }}" autofocus>
+                    <input type="text" name="name" class="form-control" required value="{{ old('name', $admin->name) }}">
+                    @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
+                <!-- Email -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required value="{{ old('email', $admin->email) }}">
+                    <input type="email" name="email" class="form-control" required value="{{ old('email', $admin->email) }}">
+                    @error('email') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <!-- Date of Birth -->
+                <div class="mb-3">
+                    <label for="date_of_birth" class="form-label">Date of Birth</label>
+                    <input type="date" name="date_of_birth" class="form-control" value="{{ old('date_of_birth', $admin->date_of_birth) }}">
+                    @error('date_of_birth') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <input type="text" name="phoneNumber" class="form-control" value="{{ old('phoneNumber', $admin->phoneNumber) }}">
+                    @error('phoneNumber') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <!-- Address (place) -->
+                <div class="mb-3">
+                    <label for="place" class="form-label">Address</label>
+                    <input type="text" name="place" class="form-control" value="{{ old('place', $admin->place) }}">
+                    @error('place') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <!-- NID -->
+                <div class="mb-3">
+                    <label for="admin_nid" class="form-label">NID</label>
+                    <input type="text" name="admin_nid" class="form-control" value="{{ old('admin_nid', $admin->admin_nid) }}">
+                    @error('admin_nid') <small class="text-danger">{{ $message }}</small> @enderror
+                </div>
+
+                <!-- Profile Image -->
+                <div class="mb-3">
+                    <label for="admin_image" class="form-label">Profile Image</label>
+                    <input type="file" name="admin_image" class="form-control">
+                    @error('admin_image') <small class="text-danger">{{ $message }}</small> @enderror
+
+                    @if ($admin->admin_image)
+                        <div class="mt-3">
+                            <p>Current Image:</p>
+                            <img src="{{ asset('storage/' . $admin->admin_image) }}" alt="Admin Image" width="120" class="img-thumbnail">
+                        </div>
+                    @endif
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
-
-            <!-- If email is unverified -->
-            @if ($admin instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $admin->hasVerifiedEmail())
-                <div class="mt-2">
-                    <p class="text-sm text-gray-800">
-                        Your email address is unverified.
-
-                        <button type="button" class="btn btn-link" form="send-verification">
-                            Click here to re-send the verification email.
-                        </button>
-                    </p>
-
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            A new verification link has been sent to your email address.
-                        </p>
-                    @endif
-                </div>
-            @endif
         </div>
-
-        <!-- Form for sending verification email -->
-        <form id="send-verification" method="POST" action="{{ route('admin.verification.send') }}">
-            @csrf
-        </form>
     </div>
 
     <!-- Update Password Section -->
@@ -95,7 +117,7 @@
         </div>
     </div>
 
-    <!-- Delete User Account Section -->
+    <!-- Delete admin Account Section -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <h5 class="card-title">Delete Account</h5>

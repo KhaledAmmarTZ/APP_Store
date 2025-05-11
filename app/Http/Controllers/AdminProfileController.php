@@ -11,39 +11,37 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
-
 class AdminProfileController extends Controller
 {
     /**
-     * Display the admin's profile form.
+     * Show the admin's profile edit form.
      */
     public function edit(Request $request)
     {
-        $admin = Auth::guard('admin')->user(); 
+        $admin = Auth::guard('admin')->user();
         return view('admin.profile.edit', compact('admin'));
     }
 
     /**
-     * Update the admin's profile information.
+     * Update the admin's profile.
      */
     public function update(AdminProfileUpdateRequest $request)
     {
-        $admin = Auth::guard('admin')->user(); 
-    
+        $admin = Auth::guard('admin')->user();
         $validatedData = $request->validated();
-    
-        // If updating the image 
+
         if ($request->hasFile('admin_image')) {
-            $imagePath = $request->file('admin_image')->store('admin_images', 'public');
-            $validatedData['admin_image'] = $imagePath;
+            if ($admin->admin_image && Storage::disk('public')->exists($admin->admin_image)) {
+                Storage::disk('public')->delete($admin->admin_image);
+            }
+
+            $validatedData['admin_image'] = $request->file('admin_image')->store('admin_images', 'public');
         }
-    
-        // Update admin profile
+
         $admin->update($validatedData);
-    
+
         return redirect()->route('admin.profile.edit')->with('success', 'Profile updated successfully.');
     }
-    
 
     /**
      * Delete the admin's account.
@@ -51,28 +49,22 @@ class AdminProfileController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('adminDeletion', [
-            'password' => ['required', 'current_password'],
+            'password' => ['required', 'current_password:admin'],
         ]);
 
-        $admin = auth()->guard('admin')->user(); 
+        $admin = Auth::guard('admin')->user();
 
         if (!$admin) {
             return redirect()->back()->withErrors(['error' => 'Admin not found.']);
         }
 
-        // Check if the admin has an image and delete it from both locations
-        if ($admin->admin_image) {
-            // Path for the file in storage
-            $imagePath = 'storage/admin_images/' . $admin->admin_image;
-            
-            if(file_exists($imagePath)) {
-                unlink($imagePath);
-            }
+        if ($admin->admin_image && Storage::disk('public')->exists($admin->admin_image)) {
+            Storage::disk('public')->delete($admin->admin_image);
         }
 
-        Auth::guard('admin')->logout(); 
+        Auth::guard('admin')->logout();
 
-        $admin->delete(); 
+        $admin->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

@@ -29,7 +29,34 @@ class TransferUnusedImages extends Command
     {
         $userImagesPath = public_path('storage/user_images');
         $blankImagesPath = public_path('storage/blank');
+        $adminImagesPath = public_path('storage/admin_images');
 
+        // Ensure the blank directory exists
+        if (!File::exists($blankImagesPath)) {
+            File::makeDirectory($blankImagesPath, 0755, true);
+        }
+
+        // Get all image filenames in the admin_images directory
+        $allAdminImages = File::files($adminImagesPath);
+
+        // Get all image filenames referenced in the database
+        $usedAdminImages = DB::table('admins')->pluck('admin_image')->toArray();
+
+        $movedAdminCount = 0;
+
+        foreach ($allAdminImages as $image) {
+            $imageName = $image->getFilename();
+
+            // Check if the image is not in the database
+            if (!in_array('admin_images/' . $imageName, $usedAdminImages)) {
+            // Move the image to the blank directory
+            File::move($image->getPathname(), $blankImagesPath . '/' . $imageName);
+            $movedAdminCount++;
+            $this->info("Moved admin image: {$imageName}");
+            }
+        }
+
+        $this->info("Total admin images moved: {$movedAdminCount}");
         // Ensure the blank directory exists
         if (!File::exists($blankImagesPath)) {
             File::makeDirectory($blankImagesPath, 0755, true);

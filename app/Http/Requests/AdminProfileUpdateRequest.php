@@ -9,9 +9,17 @@ use App\Models\Admin;
 class AdminProfileUpdateRequest extends FormRequest
 {
     /**
+     * Determine if the admin is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return Auth::guard('admin')->check(); 
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, 
      */
     public function rules(): array
     {
@@ -25,8 +33,18 @@ class AdminProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(Admin::class)->ignore($adminId), 
+                Rule::unique(Admin::class)->ignore($adminId),
             ],
+            'date_of_birth' => ['nullable', 'date'],
+            'phoneNumber' => ['nullable', 'string', 'max:15'],
+            'place' => ['nullable', 'string', 'max:255'],
+            'admin_nid' => [
+                'nullable',
+                'string',
+                'max:20',
+                Rule::unique(Admin::class, 'admin_nid')->ignore($adminId),
+            ],
+            'admin_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];
     }
 }

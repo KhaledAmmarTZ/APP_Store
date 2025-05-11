@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
+ 
     <link href="https://fonts.googleapis.com/css2?family=Sansation&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sansation:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -48,7 +48,7 @@
             <nav class="navbar navbar-expand-lg navbar-light" style=" margin: 10px 17px; border-radius: 5px; background-color: #005F56; font-family: 'Sansation', sans-serif; font-weight: 700;">
                 <a class="navbar-brand text-white" href="#">
                 <img src="#" alt="Logo" style="height: 30px; width: auto; margin-right: 10px;">
-                <span class="font-weight-bold">Bangladesh Railway</span>
+                <span class="font-weight-bold">KA App Store</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
