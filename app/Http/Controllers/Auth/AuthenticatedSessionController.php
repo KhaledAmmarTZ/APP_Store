@@ -30,20 +30,19 @@ class AuthenticatedSessionController extends Controller
             'password' => 'required',
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
-            throw ValidationException::withMessages([
-                'email' => __('The provided credentials are incorrect.'),
-            ]);
+        if (Auth::guard('staff')->attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
+            return redirect()->intended('/staff/dashboard');
         }
 
-        $request->session()->regenerate();
-
-        // Redirect unverified users to the verification notice
-        if (! $request->user()->hasVerifiedEmail()) {
-            return redirect()->route('verification.notice');
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
+            return redirect()->intended('/dashboard');
         }
 
-        return redirect()->intended('/dashboard');
+        return back()->withErrors([
+            'email' => 'Invalid credentials.',
+        ]);
     }
 
     /**
