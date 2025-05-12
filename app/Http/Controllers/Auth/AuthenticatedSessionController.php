@@ -30,14 +30,16 @@ class AuthenticatedSessionController extends Controller
             'password' => 'required',
         ]);
 
+        // Attempt login for staff
         if (Auth::guard('staff')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/staff/dashboard');
+            return redirect()->intended('/staff/dashboard'); // Redirect to staff dashboard
         }
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        // Attempt login for user
+        if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/dashboard'); // Redirect to user dashboard
         }
 
         return back()->withErrors([

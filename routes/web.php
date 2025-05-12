@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\StaffRegistrationController;
 use App\Http\Controllers\StaffProfileController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +36,22 @@ Route::middleware(['auth:staff'])->group(function () {
     Route::patch('/staff/profile', [StaffProfileController::class, 'update'])->name('staff.profile.update');
     Route::patch('/staff/profile/password', [StaffProfileController::class, 'updatePassword'])->name('staff.profile.update-password');
 });
+
+// Staff logout route
+Route::post('/staff/logout', function (Request $request) {
+    Auth::guard('staff')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/'); // Redirect to welcome page after staff logout
+})->name('staff.logout');
+
+// User logout route
+Route::post('/logout', function (Request $request) {
+    Auth::guard('web')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/'); // Redirect to welcome page after user logout
+})->name('logout');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin-auth.php';
