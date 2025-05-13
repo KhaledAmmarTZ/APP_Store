@@ -18,16 +18,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Truncate tables (optional)
+        // DB::table('users')->truncate();
+        // DB::table('staff')->truncate();
+        // DB::table('admins')->truncate();
 
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => Hash::make('password123'),
-
         ]);
+
         $this->call([
             AdminSeeder::class,
-        ]);     
+            StaffSeeder::class,
+        ]);
     }
 }
