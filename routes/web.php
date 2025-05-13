@@ -34,6 +34,7 @@ Route::middleware(['auth:staff'])->group(function () {
 
     Route::get('/staff/profile', [StaffProfileController::class, 'edit'])->name('staff.profile.edit');
     Route::patch('/staff/profile', [StaffProfileController::class, 'update'])->name('staff.profile.update');
+    Route::get('/staff/profile/password', [StaffProfileController::class, 'showUpdatePasswordForm'])->name('staff.profile.show-update-password');
     Route::patch('/staff/profile/password', [StaffProfileController::class, 'updatePassword'])->name('staff.profile.update-password');
 });
 
@@ -42,7 +43,7 @@ Route::post('/staff/logout', function (Request $request) {
     Auth::guard('staff')->logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-    return redirect('/'); // Redirect to welcome page after staff logout
+    return redirect('/'); 
 })->name('staff.logout');
 
 // User logout route
@@ -50,7 +51,7 @@ Route::post('/logout', function (Request $request) {
     Auth::guard('web')->logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-    return redirect('/'); // Redirect to welcome page after user logout
+    return redirect('/'); 
 })->name('logout');
 
 require __DIR__.'/auth.php';

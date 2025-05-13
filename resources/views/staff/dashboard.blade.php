@@ -26,6 +26,9 @@
                         <a class="nav-link" href="{{ route('staff.profile.edit') }}">Profile</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('staff.profile.update-password') }}">Change Password</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}" 
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Logout

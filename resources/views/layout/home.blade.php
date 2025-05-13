@@ -69,53 +69,53 @@
                     applySystemTheme();
                 </script> -->
                 <li class="nav-item me-2">
-                @if (Route::has('login'))
-    <nav class="flex items-center justify-end gap-4">
-        @auth('admin')
-            <!-- Admin Dashboard Link -->
-            <a
-                href="{{ url('/admin/dashboard') }}"
-                class="btn btn-dashboard"
-            >
-                Admin Dashboard
-            </a>
-        @elseauth('web')
-            <!-- User Dashboard Link -->
-            <a
-                href="{{ url('/dashboard') }}"
-                class="btn btn-dashboard"
-            >
-                User Dashboard
-            </a>
-        @elseauth('staff')
-            <!-- Staff Dashboard Link -->
-            <a
-                href="{{ url('/staff/dashboard') }}"
-                class="btn btn-dashboard"
-            >
-                Staff Dashboard
-            </a>
-        @else
-            <!-- Login Link -->
-            <a
-                href="{{ route('login') }}"
-                class="btn btn-login"
-            >
-                Log in
-            </a>
+                    @if (Route::has('login'))
+                        <nav class="flex items-center justify-end gap-4">
+                            @auth('admin')
+                                <!-- Admin Dashboard Link -->
+                                <a
+                                    href="{{ url('/admin/dashboard') }}"
+                                    class="btn btn-dashboard"
+                                >
+                                    Admin Dashboard
+                                </a>
+                            @elseauth('web')
+                                <!-- User Dashboard Link -->
+                                <a
+                                    href="{{ url('/dashboard') }}"
+                                    class="btn btn-dashboard"
+                                >
+                                    User Dashboard
+                                </a>
+                            @elseauth('staff')
+                                <!-- Staff Dashboard Link -->
+                                <a
+                                    href="{{ url('/staff/dashboard') }}"
+                                    class="btn btn-dashboard"
+                                >
+                                    Staff Dashboard
+                                </a>
+                            @else
+                                <!-- Login Link -->
+                                <a
+                                    href="{{ route('login') }}"
+                                    class="btn btn-login"
+                                >
+                                    Log in
+                                </a>
 
-            @if (Route::has('register'))
-                <!-- Register Link -->
-                <a
-                    href="{{ route('register') }}"
-                    class="btn btn-register"
-                >
-                    Register
-                </a>
-            @endif
-        @endauth
-    </nav>
-@endif
+                                @if (Route::has('register'))
+                                    <!-- Register Link -->
+                                    <a
+                                        href="{{ route('register') }}"
+                                        class="btn btn-register"
+                                    >
+                                        Register
+                                    </a>
+                                @endif
+                            @endauth
+                        </nav>
+                    @endif
                 </li>
                 <li class="nav-item">
                     <a href="{{url('/download')}}" class="btn btn-outline-success">Download</a>
@@ -146,33 +146,52 @@
         </div>
         <div class="mt-auto">
         @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="btn btn-dashboard"
-                        >
-                            Dashboard
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="btn btn-login"
-                        >
-                            Log in
-                        </a>
+                        <nav class="flex items-center justify-end gap-4">
+                            @auth('admin')
+                                <!-- Admin Dashboard Link -->
+                                <a
+                                    href="{{ url('/admin/dashboard') }}"
+                                    class="btn btn-dashboard"
+                                >
+                                    Admin Dashboard
+                                </a>
+                            @elseauth('web')
+                                <!-- User Dashboard Link -->
+                                <a
+                                    href="{{ url('/dashboard') }}"
+                                    class="btn btn-dashboard"
+                                >
+                                    User Dashboard
+                                </a>
+                            @elseauth('staff')
+                                <!-- Staff Dashboard Link -->
+                                <a
+                                    href="{{ url('/staff/dashboard') }}"
+                                    class="btn btn-dashboard"
+                                >
+                                    Staff Dashboard
+                                </a>
+                            @else
+                                <!-- Login Link -->
+                                <a
+                                    href="{{ route('login') }}"
+                                    class="btn btn-login"
+                                >
+                                    Log in
+                                </a>
 
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="btn btn-register"
-                            >
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </nav>
-            @endif
+                                @if (Route::has('register'))
+                                    <!-- Register Link -->
+                                    <a
+                                        href="{{ route('register') }}"
+                                        class="btn btn-register"
+                                    >
+                                        Register
+                                    </a>
+                                @endif
+                            @endauth
+                        </nav>
+                    @endif
         </div>
     </div>
 </div>

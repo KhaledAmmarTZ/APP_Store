@@ -45,4 +45,9 @@ class StaffProfileController extends Controller
 
         return redirect()->route('staff.profile.edit')->with('success', 'Password updated successfully.');
     }
+
+    public function showUpdatePasswordForm()
+    {
+        return view('staff.profile.update-password');
+    }
 }
