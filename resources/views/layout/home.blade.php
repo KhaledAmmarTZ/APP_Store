@@ -87,6 +87,14 @@
             >
                 User Dashboard
             </a>
+        @elseauth('staff')
+            <!-- Staff Dashboard Link -->
+            <a
+                href="{{ url('/staff/dashboard') }}"
+                class="btn btn-dashboard"
+            >
+                Staff Dashboard
+            </a>
         @else
             <!-- Login Link -->
             <a
