@@ -67,7 +67,12 @@ Route::middleware(['auth:vendor'])->group(function () {
         return view('vendor.dashboard');
     })->name('vendor.dashboard');
 });
-
+Route::post('/vendor/logout', function (Request $request) {
+    Auth::guard('vendor')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/'); 
+})->name('vendor.logout');
 require __DIR__.'/auth.php';
 require __DIR__.'/admin-auth.php';
 require __DIR__.'/admin-staff.php';
