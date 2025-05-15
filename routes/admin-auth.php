@@ -11,7 +11,15 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\AdminProfileController;
+use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
+
+
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/vendors', [VendorController::class, 'listVendors'])->name('admin.vendors');
+    Route::post('/admin/vendors/{vendor}/approve', [VendorController::class, 'approveVendor'])->name('admin.vendors.approve');
+    Route::post('/admin/vendors/{vendor}/decline', [VendorController::class, 'declineVendor'])->name('admin.vendors.decline');
+});
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('login', [AdminLoginController::class, 'create'])->name('login');

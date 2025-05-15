@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\StaffRegistrationController;
 use App\Http\Controllers\StaffProfileController;
+use App\Http\Controllers\VendorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,6 +54,19 @@ Route::post('/logout', function (Request $request) {
     $request->session()->regenerateToken();
     return redirect('/'); 
 })->name('logout');
+
+
+// Vendor routes
+Route::get('/vendor/register', [VendorController::class, 'showRegistrationForm'])->name('vendor.register.form');
+Route::post('/vendor/register', [VendorController::class, 'register'])->name('vendor.register');
+Route::get('/vendor/password/setup', [VendorController::class, 'showPasswordSetupForm'])->name('vendor.password.setup');
+Route::post('/vendor/password/setup', [VendorController::class, 'setupPassword'])->name('vendor.password.store');
+
+Route::middleware(['auth:vendor'])->group(function () {
+    Route::get('/vendor/dashboard', function () {
+        return view('vendor.dashboard');
+    })->name('vendor.dashboard');
+});
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin-auth.php';

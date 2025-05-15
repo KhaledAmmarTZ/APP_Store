@@ -42,6 +42,17 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended('/dashboard'); // Redirect to user dashboard
         }
 
+        // Attempt login for vendor
+        if (Auth::guard('vendor')->attempt($request->only('email', 'password'))) {
+            $vendor = Auth::guard('vendor')->user();
+            if ($vendor->status !== 'approved') {
+                Auth::guard('vendor')->logout();
+                return back()->withErrors(['email' => 'Your account is not approved yet.']);
+            }
+            $request->session()->regenerate();
+            return redirect()->intended('/vendor/dashboard'); // Redirect to vendor dashboard
+        }
+
         return back()->withErrors([
             'email' => 'Invalid credentials.',
         ]);

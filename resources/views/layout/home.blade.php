@@ -95,6 +95,14 @@
                                 >
                                     Staff Dashboard
                                 </a>
+                            @elseauth('vendor')
+                                <!-- Vendor Dashboard Link -->
+                                <a
+                                    href="{{ url('/vendor/dashboard') }}"
+                                    class="btn btn-dashboard"
+                                >
+                                    Vendor Dashboard
+                                </a>
                             @else
                                 <!-- Login Link -->
                                 <a
@@ -170,6 +178,14 @@
                                     class="btn btn-dashboard"
                                 >
                                     Staff Dashboard
+                                </a>
+                            @elseauth('vendor')
+                                <!-- Vendor Dashboard Link -->
+                                <a
+                                    href="{{ url('/vendor/dashboard') }}"
+                                    class="btn btn-dashboard"
+                                >
+                                    Vendor Dashboard
                                 </a>
                             @else
                                 <!-- Login Link -->
