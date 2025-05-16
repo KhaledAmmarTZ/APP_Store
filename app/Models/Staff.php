@@ -12,6 +12,9 @@ class Staff extends Model implements AuthenticatableContract
     use HasFactory, Authenticatable;
 
     protected $table = 'staff';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'name',
@@ -50,4 +53,22 @@ class Staff extends Model implements AuthenticatableContract
     ];
 
     public $timestamps = true;
+
+    // Custom ID generation
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $last = self::orderBy('id', 'desc')->first();
+                $number = 1;
+                if ($last) {
+                    $lastNumber = (int)str_replace('staff.', '', $last->id);
+                    $number = $lastNumber + 1;
+                }
+                $model->id = 'staff.' . str_pad($number, 5, '0', STR_PAD_LEFT);
+            }
+        });
+    }
 }
