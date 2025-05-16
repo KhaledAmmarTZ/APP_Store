@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Staff;
+use App\Models\Vendor;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -30,29 +34,37 @@ class AuthenticatedSessionController extends Controller
             'password' => 'required',
         ]);
 
-        // Attempt login for staff
-        if (Auth::guard('staff')->attempt($request->only('email', 'password'))) {
+        $email = $request->email;
+        $password = $request->password;
+
+        // logging in as User
+        $user = User::where('email', $email)->first();
+        if ($user && Hash::check($password, $user->password)) {
+            Auth::guard('web')->login($user);
             $request->session()->regenerate();
-            return redirect()->intended('/staff/dashboard'); // Redirect to staff dashboard
+            return redirect()->intended('/dashboard');
         }
 
-        // Attempt login for user
-        if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
+        // logging in as Staff
+        $staff = Staff::where('email', $email)->first();
+        if ($staff && Hash::check($password, $staff->password)) {
+            Auth::guard('staff')->login($staff);
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard'); // Redirect to user dashboard
+            return redirect()->intended('/staff/dashboard');
         }
 
-        // Attempt login for vendor
-        if (Auth::guard('vendor')->attempt($request->only('email', 'password'))) {
-            $vendor = Auth::guard('vendor')->user();
+        // logging in as Vendor
+        $vendor = Vendor::where('email', $email)->first();
+        if ($vendor && Hash::check($password, $vendor->password)) {
             if ($vendor->status !== 'approved') {
-                Auth::guard('vendor')->logout();
-                return back()->withErrors(['email' => 'Your account is not approved yet.']);
+                return back()->withErrors(['email' => 'Your vendor account is not approved yet.']);
             }
+            Auth::guard('vendor')->login($vendor);
             $request->session()->regenerate();
-            return redirect()->intended('/vendor/dashboard'); // Redirect to vendor dashboard
+            return redirect()->intended('/vendor/dashboard');
         }
 
+        // no match
         return back()->withErrors([
             'email' => 'Invalid credentials.',
         ]);
