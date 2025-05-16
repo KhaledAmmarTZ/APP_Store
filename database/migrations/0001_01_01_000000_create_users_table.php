@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->date('date_of_birth')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('address')->nullable();
+            $table->string('nationality')->nullable();
+            $table->enum('status', ['active', 'inactive', 'suspended'])->default('active');
             $table->string('role')->default('user');
             $table->string('phoneNumber')->nullable();
             $table->string('place')->nullable();

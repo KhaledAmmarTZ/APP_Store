@@ -12,6 +12,10 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,11 +26,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'date_of_birth',
+        'gender',
+        'address',
+        'nationality',
+        'status',
         'role',
         'phoneNumber',
         'place',
         'user_nid',
         'user_image',
+        'email_verified_at',
     ];
 
     /**
@@ -40,17 +49,15 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'date_of_birth' => 'date',
+    ];
+
     protected static function boot()
     {
         parent::boot();
