@@ -51,4 +51,17 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                do {
+                    $id = \Illuminate\Support\Str::random(15);
+                } while (self::where('id', $id)->exists());
+                $model->id = $id;
+            }
+        });
+    }
 }
