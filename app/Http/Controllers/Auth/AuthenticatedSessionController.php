@@ -27,7 +27,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse|View
     {
         $request->validate([
             'email' => 'required|email',
@@ -37,50 +37,111 @@ class AuthenticatedSessionController extends Controller
         $email = $request->email;
         $password = $request->password;
 
-        // logging in as User
+        $matchedRoles = [];
+
         $user = User::where('email', $email)->first();
         if ($user && Hash::check($password, $user->password)) {
+            $matchedRoles[] = 'user';
+        }
+
+        $staff = Staff::where('email', $email)->first();
+        if ($staff && Hash::check($password, $staff->password)) {
+            $matchedRoles[] = 'staff';
+        }
+
+        $vendor = Vendor::where('email', $email)->first();
+        if ($vendor && Hash::check($password, $vendor->password)) {
+            if ($vendor->status === 'approved') {
+                $matchedRoles[] = 'vendor';
+            }
+        }
+
+        // If multiple matches, show role selection
+        if (count($matchedRoles) > 1) {
+            return view('auth.choose-role', [
+                'roles' => $matchedRoles,
+                'email' => $email,
+                'password' => $password,
+            ]);
+        }
+
+        // Single match - proceed
+        if (in_array('user', $matchedRoles)) {
             Auth::guard('web')->login($user);
             $request->session()->regenerate();
             return redirect()->intended('/dashboard');
         }
 
-        // logging in as Staff
-        $staff = Staff::where('email', $email)->first();
-        if ($staff && Hash::check($password, $staff->password)) {
+        if (in_array('staff', $matchedRoles)) {
             Auth::guard('staff')->login($staff);
             $request->session()->regenerate();
             return redirect()->intended('/staff/dashboard');
         }
 
-        // logging in as Vendor
-        $vendor = Vendor::where('email', $email)->first();
-        if ($vendor && Hash::check($password, $vendor->password)) {
-            if ($vendor->status !== 'approved') {
-                return back()->withErrors(['email' => 'Your vendor account is not approved yet.']);
-            }
+        if (in_array('vendor', $matchedRoles)) {
             Auth::guard('vendor')->login($vendor);
             $request->session()->regenerate();
             return redirect()->intended('/vendor/dashboard');
         }
 
-        // no match
-        return back()->withErrors([
-            'email' => 'Invalid credentials.',
-        ]);
+        return back()->withErrors(['email' => 'Invalid credentials.']);
     }
 
     /**
-     * Destroy an authenticated session.
+     * Handle login after role selection.
+     */
+    public function roleLogin(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'role' => 'required|in:user,staff,vendor',
+        ]);
+
+        $email = $request->email;
+        $password = $request->password;
+        $role = $request->role;
+
+        switch ($role) {
+            case 'user':
+                $user = User::where('email', $email)->first();
+                if ($user && Hash::check($password, $user->password)) {
+                    Auth::guard('web')->login($user);
+                    $request->session()->regenerate();
+                    return redirect()->intended('/dashboard');
+                }
+                break;
+
+            case 'staff':
+                $staff = Staff::where('email', $email)->first();
+                if ($staff && Hash::check($password, $staff->password)) {
+                    Auth::guard('staff')->login($staff);
+                    $request->session()->regenerate();
+                    return redirect()->intended('/staff/dashboard');
+                }
+                break;
+
+            case 'vendor':
+                $vendor = Vendor::where('email', $email)->first();
+                if ($vendor && Hash::check($password, $vendor->password) && $vendor->status === 'approved') {
+                    Auth::guard('vendor')->login($vendor);
+                    $request->session()->regenerate();
+                    return redirect()->intended('/vendor/dashboard');
+                }
+                break;
+        }
+
+        return redirect()->route('login')->withErrors(['email' => 'Invalid credentials for selected role.']);
+    }
+
+    /**
+     * Logout from current session.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
-
+        Auth::logout();
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect('/');
     }
 }
