@@ -12,6 +12,11 @@ class Vendor extends Model implements AuthenticatableContract
     /** @use HasFactory<\Database\Factories\VendorFactory> */
     use HasFactory, Authenticatable;
 
+    protected $table = 'vendors';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,9 +27,17 @@ class Vendor extends Model implements AuthenticatableContract
         'email',
         'role',
         'company_name',
-        'status',
+        'phone',
+        'address',
+        'company_address',
+        'business_license',
+        'vendor_nid',
+        'vendor_image',
+        'bank_account_number',
+        'bank_name',
         'password',
         'email_verified_at',
+        'status',
     ];
 
     /**
@@ -45,4 +58,24 @@ class Vendor extends Model implements AuthenticatableContract
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public $timestamps = true;
+
+    // Custom ID generation for vendor like vendor.0000000001
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $last = self::orderBy('id', 'desc')->first();
+                $number = 1;
+                if ($last) {
+                    $lastNumber = (int)str_replace('vendor.', '', $last->id);
+                    $number = $lastNumber + 1;
+                }
+                $model->id = 'vendor.' . str_pad($number, 5, '0', STR_PAD_LEFT);
+            }
+        });
+    }
 }
