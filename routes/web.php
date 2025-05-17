@@ -62,6 +62,8 @@ Route::post('/vendor/register', [VendorController::class, 'register'])->name('ve
 Route::get('/vendor/password/setup', [VendorController::class, 'showPasswordSetupForm'])->name('vendor.password.setup');
 Route::post('/vendor/password/setup', [VendorController::class, 'setupPassword'])->name('vendor.password.store');
 
+Route::view('/vendor', 'vendor-invite')->name('vendor-invite');
+
 Route::middleware(['auth:vendor'])->group(function () {
     Route::get('/vendor/dashboard', function () {
         return view('vendor.dashboard');

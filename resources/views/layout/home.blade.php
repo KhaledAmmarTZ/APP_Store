@@ -327,6 +327,7 @@
     <!-- Back to top button -->
     <div class="text-end mt-3 theme-link">
         <button id="backToTopButton" class="btn btn-secondary btn-sm theme-link">Back to top</button>
+        <a href="{{ url('/vendor') }}" class="btn btn-secondary btn-sm theme-link">Vendor</a>
     </div>
   </div>
 </footer>

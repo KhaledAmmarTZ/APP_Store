@@ -1,4 +1,3 @@
-//Theme Toggle Script 
 window.addEventListener('DOMContentLoaded', () => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const body = document.body;
@@ -7,6 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('themeToggle');
     const offcanvas = document.querySelector('.offcanvas');
     const themeLinks = document.querySelectorAll('.theme-link');
+    const modalBody = document.querySelector('.modal-rules');
 
     function applyTheme(isDark) {
         if (isDark) {
@@ -34,6 +34,13 @@ window.addEventListener('DOMContentLoaded', () => {
             themeLinks.forEach(link => {
                 link.style.color = '#ffffff';
             });
+
+            // Modal rules dark style
+            if (modalBody) {
+                modalBody.style.backgroundColor = '#1e1e2f';
+                modalBody.style.color = '#ffffff';
+            }
+
         } else {
             body.classList.remove('dark-mode');
             body.style.backgroundColor = '#ffffff';
@@ -59,6 +66,12 @@ window.addEventListener('DOMContentLoaded', () => {
             themeLinks.forEach(link => {
                 link.style.color = '#000000'; 
             });
+
+            // Modal rules light style
+            if (modalBody) {
+                modalBody.style.backgroundColor = '#ffffff';
+                modalBody.style.color = '#000000';
+            }
         }
     }
 
@@ -69,6 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
         applyTheme(!isDark);
     });
 });
+
 
 const styleSheet = document.getElementById('dynamic-keyframes');
 const keyframes = ['@keyframes sweepGray {'];
