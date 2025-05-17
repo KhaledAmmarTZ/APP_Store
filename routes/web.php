@@ -78,3 +78,4 @@ Route::post('/vendor/logout', function (Request $request) {
 require __DIR__.'/auth.php';
 require __DIR__.'/admin-auth.php';
 require __DIR__.'/admin-staff.php';
+require __DIR__.'/product.php';

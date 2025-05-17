@@ -28,16 +28,16 @@ return new class extends Migration
             // $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->date('release_date');
-            $table->enum('status', ['active', 'inactive', 'suspended'])->default('active');
+            $table->enum('status', ['active', 'inactive', 'suspended','pending'])->default('pending');
             // Foreign key to (vendor) table
             $table->string('created_by', 20); 
             $table->foreign('created_by')->references('id')->on('vendors')->onDelete('cascade');
 
-            $table->decimal('total_sold', 10, 2)->default(0)->unsigned();
-            $table->decimal('total_rating', 10, 2)->default(0)->unsigned();
-            $table->decimal('total_stock', 10, 2)->default(0)->unsigned();
-            $table->decimal('total_review', 10, 2)->default(0)->unsigned();
-            $table->decimal('average_rating', 3, 2)->default(0)->unsigned();
+            $table->decimal('total_sold', 10, 2)->default(0)->unsigned()->nullable();
+            $table->decimal('total_rating', 10, 2)->default(0)->unsigned()->nullable();
+            $table->decimal('total_stock', 10, 2)->default(0)->unsigned()->nullable();
+            $table->decimal('total_review', 10, 2)->default(0)->unsigned()->nullable();
+            $table->decimal('average_rating', 3, 2)->default(0)->unsigned()->nullable();
 
             $table->date('last_updated')->nullable();
             $table->text('update_patch')->nullable();
