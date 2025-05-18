@@ -188,7 +188,25 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        //  Check ownership or status before deletion
+        $vendorId = Auth::guard('vendor')->id();
+
+        if ($product->created_by !== $vendorId) {
+            return redirect()->route('vendor.products.index')->with('error', 'You do not have permission to delete this product.');
+        }
+
+
+        // Delete the product image from storage if exists
+        if ($product->product_image && \Storage::disk('public')->exists($product->product_image)) {
+            \Storage::disk('public')->delete($product->product_image);
+        }
+
+        $product->categories()->detach();
+
+        // Delete the product
+        $product->delete();
+
+        return redirect()->route('vendor.products.index')->with('success', 'Product deleted successfully.');
     }
     
 }

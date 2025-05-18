@@ -44,12 +44,20 @@
                     <td class="border p-2">
                         @if($product->status === 'active')
                             <a href="{{ route('vendor.products.edit', $product->id) }}"
-                               class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                            class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 mr-2">
                                 Edit
                             </a>
                         @else
                             <span class="text-gray-500 italic">Edit disabled</span>
                         @endif
+
+                        <form action="{{ route('vendor.products.destroy', $product->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                                Delete
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach

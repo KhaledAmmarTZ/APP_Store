@@ -46,12 +46,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h4>Welcome, {{ Auth::guard('staff')->user()->name }}!</h4>
-                    </div>
-                    <div class="card-body">
-                        <p class="mb-0">This is your staff dashboard. Use the navigation bar to access your profile or logout.</p>
-                    </div>
+                        <div class="card-header bg-primary text-white">
+                            <h4>Welcome, {{ Auth::guard('staff')->user()->name }}!</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-3">This is your staff dashboard. Use the navigation bar to access your profile or logout.</p>
+                            <a href="{{ route('staff.products.pending') }}" class="btn btn-success">
+                                View Pending Product Approvals
+                            </a>
+                        </div>
                 </div>
             </div>
         </div>
