@@ -28,18 +28,29 @@
                     <th class="py-2 px-4 border-b">Price</th>
                     <th class="py-2 px-4 border-b">Status</th>
                     <th class="py-2 px-4 border-b">Created At</th>
+                    <th class="border p-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($products as $product)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="py-2 px-4">
-                        <img src="{{ asset($product->product_image) }}" alt="{{ $product->product_name }}" class="w-16 h-16 object-cover rounded" />
+                        <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_name }}" class="w-16 h-16 object-cover rounded" />
                     </td>
                     <td class="py-2 px-4">{{ $product->product_name }}</td>
                     <td class="py-2 px-4">${{ number_format($product->product_price, 2) }}</td>
                     <td class="py-2 px-4 capitalize">{{ $product->status }}</td>
                     <td class="py-2 px-4">{{ $product->created_at->format('Y-m-d') }}</td>
+                    <td class="border p-2">
+                        @if($product->status === 'active')
+                            <a href="{{ route('vendor.products.edit', $product->id) }}"
+                               class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                                Edit
+                            </a>
+                        @else
+                            <span class="text-gray-500 italic">Edit disabled</span>
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

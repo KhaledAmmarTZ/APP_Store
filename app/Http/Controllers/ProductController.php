@@ -71,7 +71,7 @@ class ProductController extends Controller
 
         // Calculate final price
         $finalPrice = $price - ($price * $discount / 100);
-        $finalPrice = round($finalPrice, 2); // Optional: round to 2 decimal places
+        $finalPrice = round($finalPrice, 2); 
 
         // Create product
         $product = Product::create([
@@ -95,7 +95,7 @@ class ProductController extends Controller
             'total_review' => 0,
             'average_rating' => 0,
             'last_updated' => now(),
-            'update_patch' => $request->update_patch, // Previously was null
+            'update_patch' => $request->update_patch, 
         ]);
 
         // Attach categories
@@ -118,16 +118,70 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        if ($product->status !== 'active') {
+            return redirect()->route('vendor.products.index')->with('error', 'Only active products can be edited.');
+        }
+
+        $categories = Category::all();
+        return view('vendor.products.edit', compact('product', 'categories'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Product $product)
     {
-        //
+        if ($product->status !== 'active') {
+            return redirect()->route('vendor.products.index')->with('error', 'Only active products can be updated.');
+        }
+
+        $request->validate([
+            'product_name' => 'required|string|max:255',
+            'product_description' => 'nullable|string|max:65535',
+            'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'product_price' => 'required|numeric|min:0|max:99999999.99',
+            'discount_percent' => 'nullable|numeric|min:0|max:100',
+            'version' => 'required|string|max:255',
+            'size_in_mb' => 'nullable|numeric|min:0|max:999999.99',
+            'platform' => 'required|in:android,ios,web',
+            'type' => 'required|in:free,paid',
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
+            'update_patch' => 'nullable|string|max:65535',
+        ]);
+
+        // If new image uploaded
+        if ($request->hasFile('product_image')) {
+            $imagePath = $request->file('product_image')->store('product_images', 'public');
+            $product->product_image = $imagePath;
+        }
+
+        // Update other fields
+        $price = floatval($request->product_price);
+        $discount = floatval($request->discount_percent ?? 0);
+        $finalPrice = round($price - ($price * $discount / 100), 2);
+
+        $product->update([
+            'product_name' => $request->product_name,
+            'product_description' => $request->product_description,
+            'product_price' => $price,
+            'discount_percent' => $discount,
+            'final_price' => $finalPrice,
+            'version' => $request->version,
+            'size_in_mb' => $request->size_in_mb,
+            'platform' => $request->platform,
+            'type' => $request->type,
+            'update_patch' => $request->update_patch,
+            'last_updated' => now(),
+        ]);
+
+        // Sync categories
+        $product->categories()->sync($request->categories);
+
+        return redirect()->route('vendor.products.index')->with('success', 'Product updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
