@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('product_name');
             $table->text('product_description')->nullable();
             $table->string('product_image');
-            $table->decimal('product_price', 10, 2);
-            $table->decimal('product_discount', 10, 2)->default(0);
+            $table->decimal('product_price', 10, 2); // Original price
+            $table->decimal('discount_percent', 5, 2)->default(0); // Discount in percent
+            $table->decimal('final_price', 10, 2)->default(0); // Final price after discount
+
             $table->string('version');
             $table->decimal('size_in_mb', 8, 2)->nullable(); // 
             $table->enum('platform', ['android', 'ios', 'web'])->default('web');

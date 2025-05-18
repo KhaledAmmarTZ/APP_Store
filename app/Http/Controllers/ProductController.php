@@ -44,7 +44,7 @@ class ProductController extends Controller
             'product_description' => 'nullable|string|max:65535',
             'product_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
-            'product_discount' => 'nullable|numeric|min:0|max:99999999.99',
+            'discount_percent' => 'nullable|numeric|min:0|max:100',
             'version' => 'required|string|max:255',
             'size_in_mb' => 'nullable|numeric|min:0|max:999999.99',
             'platform' => 'required|in:android,ios,web',
@@ -54,16 +54,24 @@ class ProductController extends Controller
             'update_patch' => 'nullable|string|max:65535',
         ]);
 
-        // Handle image upload if exists
+        // Handle image upload
         $imagePath = null;
         if ($request->hasFile('product_image')) {
             $imagePath = $request->file('product_image')->store('product_images', 'public');
         }
 
-        // Generate unique product id manually (since id is string and non-incrementing)
+        // Generate unique product ID
         do {
             $productId = Str::random(15);
         } while (Product::where('id', $productId)->exists());
+
+        // Ensure float values
+        $price = floatval($request->product_price);
+        $discount = floatval($request->discount_percent ?? 0);
+
+        // Calculate final price
+        $finalPrice = $price - ($price * $discount / 100);
+        $finalPrice = round($finalPrice, 2); // Optional: round to 2 decimal places
 
         // Create product
         $product = Product::create([
@@ -71,14 +79,15 @@ class ProductController extends Controller
             'product_name' => $request->product_name,
             'product_description' => $request->product_description,
             'product_image' => $imagePath,
-            'product_price' => $request->product_price,
-            'product_discount' => $request->product_discount ?? 0,
+            'product_price' => $price,
+            'discount_percent' => $discount,
+            'final_price' => $finalPrice,
             'version' => $request->version,
             'size_in_mb' => $request->size_in_mb,
             'platform' => $request->platform,
             'type' => $request->type,
             'release_date' => now(),
-            'status' => 'pending', // default pending status
+            'status' => 'pending',
             'created_by' => Auth::guard('vendor')->id(),
             'total_sold' => 0,
             'total_rating' => 0,
@@ -86,9 +95,8 @@ class ProductController extends Controller
             'total_review' => 0,
             'average_rating' => 0,
             'last_updated' => now(),
-            'update_patch' => null,
+            'update_patch' => $request->update_patch, // Previously was null
         ]);
-
 
         // Attach categories
         $product->categories()->attach($request->categories);

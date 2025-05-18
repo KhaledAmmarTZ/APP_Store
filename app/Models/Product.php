@@ -9,15 +9,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
     protected $primaryKey = 'id';
-    public $incrementing = false; // Because the primary key is a string
+    public $incrementing = false; 
     protected $keyType = 'string';
+
+    protected $casts = [
+        'product_price' => 'float',
+        'discount_percent' => 'float',
+        'final_price' => 'float',
+        'size_in_mb' => 'float',
+        'average_rating' => 'float',
+    ];
 
     protected $fillable = [
         'product_name',
         'product_description',
         'product_image',
         'product_price',
-        'product_discount',
+        'discount_percent',    
+        'final_price',         
         'version',
         'size_in_mb',
         'platform',

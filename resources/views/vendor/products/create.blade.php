@@ -87,16 +87,17 @@
                 </div>
 
                 <div>
-                    <label class="block font-medium mb-1" for="product_discount">Discount ($)</label>
+                    <label class="block font-medium mb-1" for="discount_percent">Discount ($)</label>
                     <input
                         type="number"
                         step="0.01"
-                        name="product_discount"
-                        id="product_discount"
-                        value="{{ old('product_discount') }}"
+                        name="discount_percent"
+                        id="discount_percent"
+                        value="{{ old('discount_percent') }}"
                         class="w-full border border-gray-300 p-2 rounded"
                     />
                 </div>
+
 
                 <div>
                     <label class="block font-medium mb-1" for="version">Version</label>

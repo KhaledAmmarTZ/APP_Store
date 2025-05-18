@@ -6,16 +6,17 @@ use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Vendor;
+use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
     public function run()
     {
-        // Get all categories (you said you have 8)
+        // Get all categories
         $categories = Category::all();
 
         // Get vendor(s) to assign products to
-        $vendor = Vendor::first(); // Assuming you only have one vendor seeded as in your example
+        $vendor = Vendor::first(); // Use first available vendor
 
         if (!$vendor) {
             $this->command->error('No vendors found! Please seed vendors first.');
@@ -23,12 +24,18 @@ class ProductSeeder extends Seeder
         }
 
         for ($i = 1; $i <= 5; $i++) {
+            $price = rand(100, 1000);
+            $discount = rand(0, 50);
+            $finalPrice = $price - ($price * $discount / 100);
+
             $product = Product::create([
+                'id' => Str::random(15),
                 'product_name' => "Product $i",
                 'product_description' => "Description for product $i",
                 'product_image' => "product_image_$i.png",
-                'product_price' => rand(100, 1000),
-                'product_discount' => rand(0, 50),
+                'product_price' => $price,
+                'discount_percent' => $discount,
+                'final_price' => $finalPrice,
                 'version' => '1.0.' . $i,
                 'size_in_mb' => rand(10, 100),
                 'platform' => ['android', 'ios', 'web'][array_rand(['android', 'ios', 'web'])],
@@ -40,14 +47,14 @@ class ProductSeeder extends Seeder
                 'total_rating' => rand(0, 5000),
                 'total_stock' => rand(0, 500),
                 'total_review' => rand(0, 200),
-                'average_rating' => rand(0, 5),
+                'average_rating' => rand(1, 50) / 10,
                 'last_updated' => now(),
                 'update_patch' => 'Initial release',
             ]);
 
-            // Attach 3 random categories to each product
+            // Attach 3 random categories
             $product->categories()->attach(
-                $categories->random(3)->pluck('id')->toArray()
+                $categories->random(min(3, $categories->count()))->pluck('id')->toArray()
             );
         }
     }

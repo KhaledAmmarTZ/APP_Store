@@ -18,7 +18,7 @@ class ProductApprovalController extends Controller
     // Approve product
     public function approve(Product $product)
     {
-        $product->status = 'approved';
+        $product->status = 'active';
         $product->save();
 
         return redirect()->route('staff.products.pending')->with('success', 'Product approved successfully.');
