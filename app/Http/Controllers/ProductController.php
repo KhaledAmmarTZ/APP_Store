@@ -40,7 +40,7 @@ class ProductController extends Controller
             ->findOrFail($id);
         
 
-        return view('products.index', compact('product'));
+        return view('products-index', compact('product'));
     }
 
 

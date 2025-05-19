@@ -15,4 +15,4 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/products', [ProductController::class, 'adminindex'])->name('admin.products.index');
 });
 
-Route::get('/products/{id}', [ProductController::class, 'indexforall'])->name('products.index');
+Route::get('/products/{id}', [ProductController::class, 'indexforall'])->name('products-index');

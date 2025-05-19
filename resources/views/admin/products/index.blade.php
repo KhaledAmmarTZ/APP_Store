@@ -70,7 +70,7 @@
                                 Delete
                             </button>
                         </form> -->
-                        <a href="{{ route('products.index', $product->id) }}"  class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 mr-2">
+                        <a href="{{ route('products-index', $product->id) }}"  class="inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 mr-2">
                             View
                         </a>
                     </td>
