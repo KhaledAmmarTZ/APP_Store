@@ -40,7 +40,7 @@ return new class extends Migration
 
             $table->decimal('total_sold', 10, 2)->default(0)->unsigned()->nullable();
             $table->decimal('total_rating', 10, 2)->default(0)->unsigned()->nullable();
-            $table->decimal('total_stock', 10, 2)->default(0)->unsigned()->nullable();
+            // $table->decimal('total_stock', 10, 2)->default(0)->unsigned()->nullable();
             $table->decimal('total_review', 10, 2)->default(0)->unsigned()->nullable();
             $table->decimal('average_rating', 3, 2)->default(0)->unsigned()->nullable();
 

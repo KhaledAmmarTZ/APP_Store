@@ -45,7 +45,7 @@ class ProductSeeder extends Seeder
                 'created_by' => $vendor->id, 
                 'total_sold' => rand(0, 1000),
                 'total_rating' => rand(0, 5000),
-                'total_stock' => rand(0, 500),
+                // 'total_stock' => rand(0, 500),
                 'total_review' => rand(0, 200),
                 'average_rating' => rand(1, 50) / 10,
                 'last_updated' => now(),

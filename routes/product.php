@@ -10,3 +10,9 @@ Route::middleware(['auth:staff'])->prefix('staff')->group(function () {
     Route::post('/products/{product}/approve', [ProductApprovalController::class, 'approve'])->name('staff.products.approve');
     Route::post('/products/{product}/reject', [ProductApprovalController::class, 'reject'])->name('staff.products.reject');
 });
+
+Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
+    Route::get('/products', [ProductController::class, 'adminindex'])->name('admin.products.index');
+});
+
+Route::get('/products/{id}', [ProductController::class, 'indexforall'])->name('products.index');

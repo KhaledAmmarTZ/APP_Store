@@ -25,6 +25,25 @@ class ProductController extends Controller
         return view('vendor.products.index', compact('products'));
     }
 
+    public function adminindex()
+    {
+
+        $products = Product::all();
+
+        return view('admin.products.index', compact('products'));
+    }
+
+    public function indexforall($id)
+    {
+        $product = Product::with('categories', 'vendor')
+            ->where('status', 'active')
+            ->findOrFail($id);
+        
+
+        return view('products.index', compact('product'));
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -91,7 +110,7 @@ class ProductController extends Controller
             'created_by' => Auth::guard('vendor')->id(),
             'total_sold' => 0,
             'total_rating' => 0,
-            'total_stock' => 0,
+            // 'total_stock' => 0,
             'total_review' => 0,
             'average_rating' => 0,
             'last_updated' => now(),
