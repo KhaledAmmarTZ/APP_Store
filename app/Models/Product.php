@@ -34,6 +34,7 @@ class Product extends Model
         'release_date',
         'status',
         'created_by',
+        'checked_by',
         'total_sold',
         'total_rating',
         'total_stock',

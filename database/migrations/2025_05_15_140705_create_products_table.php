@@ -35,6 +35,9 @@ return new class extends Migration
             $table->string('created_by', 20); 
             $table->foreign('created_by')->references('id')->on('vendors')->onDelete('cascade');
 
+            $table->string('checked_by', 20)->nullable();
+            $table->foreign('checked_by')->references('id')->on('staff')->onDelete('cascade');
+
             $table->decimal('total_sold', 10, 2)->default(0)->unsigned()->nullable();
             $table->decimal('total_rating', 10, 2)->default(0)->unsigned()->nullable();
             $table->decimal('total_stock', 10, 2)->default(0)->unsigned()->nullable();
