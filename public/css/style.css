@@ -109,3 +109,61 @@ body:not(.dark-mode) .btn-dashboard:hover {
   background-color: #ffffff;
   color: #000000;
 }
+
+/* Static average star rating (non-interactive) */
+    .star-rating-static {
+        display: inline-flex;
+        font-size: 1.6rem;
+        user-select: none;
+        color: #ccc;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    .star-rating-static .full {
+        color: #ffc107;
+    }
+
+    .star-rating-static .half {
+        position: relative;
+        color: #ccc;
+    }
+
+    .star-rating-static .half .half-star {
+        position: absolute;
+        overflow: hidden;
+        width: 50%;
+        top: 0;
+        left: 0;
+        color: #ffc107;
+    }
+
+    .star-rating-static label {
+        margin-right: 2px;
+        position: relative;
+        display: inline-block;
+        line-height: 1;
+    }
+
+    /* Interactive star rating (review form) */
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
+
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+
+    .star-rating label {
+        color: #ccc;
+        transition: color 0.2s;
+    }
+
+    .star-rating input[type="radio"]:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #ffc107;
+    }

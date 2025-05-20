@@ -13,8 +13,8 @@
         <!-- Product Image -->
         <div class="col-md-5 text-center mb-4">
             <img src="{{ asset('storage/' . $product->product_image) }}" 
-                alt="{{ $product->product_name }}" 
-                class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+                 alt="{{ $product->product_name }}" 
+                 class="img-fluid rounded shadow-sm" style="max-height: 400px;">
         </div>
 
         <!-- Product Info -->
@@ -22,8 +22,12 @@
             <ul class="list-group list-group-flush mb-4">
                 <li class="list-group-item"><strong>Product ID:</strong> {{ $product->id }}</li>
                 <li class="list-group-item"><strong>Price:</strong> ${{ $product->product_price }}</li>
-                <li class="list-group-item"><strong>Discount:</strong> <span class="text-success">{{ $product->discount_percent }}%</span></li>
-                <li class="list-group-item"><strong>Final Price:</strong> <span class="text-primary fw-bold">${{ $product->final_price }}</span></li>
+                <li class="list-group-item"><strong>Discount:</strong> 
+                    <span class="text-success">{{ $product->discount_percent }}%</span>
+                </li>
+                <li class="list-group-item"><strong>Final Price:</strong> 
+                    <span class="text-primary fw-bold">${{ $product->final_price }}</span>
+                </li>
                 <li class="list-group-item"><strong>Version:</strong> {{ $product->version }}</li>
                 
                 @php
@@ -40,7 +44,36 @@
                 <li class="list-group-item"><strong>Total Sold:</strong> {{ $product->total_sold }}</li>
                 <li class="list-group-item"><strong>Total Rating:</strong> {{ $product->total_rating }}</li>
                 <li class="list-group-item"><strong>Total Reviews:</strong> {{ $product->total_review }}</li>
-                <li class="list-group-item"><strong>Average Rating:</strong> {{ $product->average_rating }}</li>
+                <li class="list-group-item">
+                    <strong>Average Rating:</strong> 
+                    {{ $product->average_rating }}
+                    <span class="star-rating-static">
+                        @php
+                            $rating = $product->average_rating;
+                            $fullStars = floor($rating);
+                            $hasHalfStar = ($rating - $fullStars) >= 0.5;
+                            $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0);
+                        @endphp
+
+                        {{-- Full stars --}}
+                        @for ($i = 0; $i < $fullStars; $i++)
+                            <label class="full">&#9733;</label>
+                        @endfor
+
+                        {{-- Half star --}}
+                        @if ($hasHalfStar)
+                            <label class="half">
+                                &#9733; {{-- base empty star in gray --}}
+                                <span class="half-star">&#9733;</span> {{-- gold half overlay --}}
+                            </label>
+                        @endif
+
+                        {{-- Empty stars --}}
+                        @for ($i = 0; $i < $emptyStars; $i++)
+                            <label>&#9733;</label>
+                        @endfor
+                    </span>
+                </li>
             </ul>
 
             <!-- Description -->
@@ -71,62 +104,80 @@
         <h5 class="alert-heading">Note</h5>
         <p class="mb-0">All product information is provided and managed by the vendor. Please verify details before making any purchasing decision.</p>
     </div>
+
     <!-- Review Section -->
-<div class="mt-5">
-    <h4>Submit Your Review</h4>
+    <div class="mt-5">
+        <h4>Submit Your Review</h4>
 
-    @auth
-        <form action="{{ route('reviews.store') }}" method="POST" class="border rounded p-4 shadow-sm mt-3">
-            @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
+        @auth
+            <form action="{{ route('reviews.store') }}" method="POST" class="border rounded p-4 shadow-sm mt-3">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <div class="mb-3">
+                    <label class="form-label">Rating:</label>
+                    <div class="star-rating">
+                        @for ($i = 5; $i >= 1; $i--)
+                            <input type="radio" name="rating" id="star{{ $i }}" value="{{ $i }}" required>
+                            <label for="star{{ $i }}">&#9733;</label> {{-- ★ --}}
+                        @endfor
+                    </div>
+                </div>
 
-            <style>
-    .star-rating {
-        direction: rtl;
-        display: inline-flex;
-        font-size: 1.8rem;
-        cursor: pointer;
-    }
-    .star-rating input[type="radio"] {
-        display: none;
-    }
-    .star-rating label {
-        color: #ccc;
-        transition: color 0.2s;
-    }
-    .star-rating input[type="radio"]:checked ~ label {
-        color: #ffc107;
-    }
-    .star-rating label:hover,
-    .star-rating label:hover ~ label {
-        color: #ffc107;
-    }
-</style>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Your Review:</label>
+                    <textarea name="comment" id="comment" rows="3" class="form-control" placeholder="Write something..."></textarea>
+                </div>
 
-<div class="mb-3">
-    <label class="form-label">Rating:</label>
-    <div class="star-rating">
-        @for ($i = 5; $i >= 1; $i--)
-            <input type="radio" name="rating" id="star{{ $i }}" value="{{ $i }}" required>
-            <label for="star{{ $i }}">&#9733;</label> {{-- ★ --}}
-        @endfor
-    </div>
-</div>
-
-
-            <div class="mb-3">
-                <label for="comment" class="form-label">Your Review:</label>
-                <textarea name="comment" id="comment" rows="3" class="form-control" placeholder="Write something..."></textarea>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        @else
+            <div class="alert alert-warning mt-3">
+                Please <a href="{{ route('login') }}">login</a> to submit a review.
             </div>
+        @endauth
+    </div>
 
-            <button type="submit" class="btn btn-primary">Submit Review</button>
-        </form>
-    @else
-        <div class="alert alert-warning mt-3">
-            Please <a href="{{ route('login') }}">login</a> to submit a review.
+    {{-- Top 2 Most Rated Reviews --}}
+    <div class="mt-5">
+        <h4>Top Reviews</h4>
+        @forelse($topReviews as $review)
+            <div class="border rounded p-3 mb-3">
+                <div>
+                    <strong>{{ $review->user->name ?? 'Unknown User' }}</strong>
+                    <span class="text-warning">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span class="{{ $i <= $review->rating ? 'text-warning' : 'text-secondary' }}">&#9733;</span>
+                        @endfor
+                    </span>
+                    <small class="text-muted">{{ $review->created_at->diffForHumans() }}</small>
+                </div>
+                <div>{{ $review->comment }}</div>
+            </div>
+        @empty
+            <div class="text-muted">No reviews yet.</div>
+        @endforelse
+    </div>
+
+    {{-- User's Own Review --}}
+    @auth
+        <div class="mt-5">
+            <h4>Your Review</h4>
+            @if($userReview)
+                <div class="border rounded p-3 mb-3">
+                    <div>
+                        <span class="text-warning">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <span class="{{ $i <= $userReview->rating ? 'text-warning' : 'text-secondary' }}">&#9733;</span>
+                            @endfor
+                        </span>
+                        <small class="text-muted">{{ $userReview->created_at->diffForHumans() }}</small>
+                    </div>
+                    <div>{{ $userReview->comment }}</div>
+                </div>
+            @else
+                <div class="text-muted">You have not reviewed this product yet.</div>
+            @endif
         </div>
     @endauth
-</div>
-
 </div>
 @endsection

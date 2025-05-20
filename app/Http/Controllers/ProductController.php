@@ -35,12 +35,26 @@ class ProductController extends Controller
 
     public function indexforall($id)
     {
-        $product = Product::with('categories', 'vendor')
-            ->where('status', 'active')
-            ->findOrFail($id);
-        
+        $product = Product::with(['categories', 'vendor'])->where('status', 'active')->findOrFail($id);
 
-        return view('products-index', compact('product'));
+        // Top 2 reviews by rating (and most recent if tie)
+        $topReviews = $product->reviews()
+            ->with('user')
+            ->orderByDesc('rating')
+            ->orderByDesc('created_at')
+            ->take(2)
+            ->get();
+
+        // User's review (if logged in)
+        $userReview = null;
+        if (auth()->check()) {
+            $userReview = $product->reviews()
+                ->where('user_id', auth()->id())
+                ->with('user')
+                ->first();
+        }
+
+        return view('products-index', compact('product', 'topReviews', 'userReview'));
     }
 
 
@@ -127,9 +141,28 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        $product = Product::with(['categories', 'reviews.user'])->findOrFail($id);
+
+        // Top 2 reviews by rating (and most recent if tie)
+        $topReviews = $product->reviews()
+            ->orderByDesc('rating')
+            ->orderByDesc('created_at')
+            ->take(2)
+            ->with('user')
+            ->get();
+
+        // User's review (if logged in)
+        $userReview = null;
+        if (auth()->check()) {
+            $userReview = $product->reviews()
+                ->where('user_id', auth()->id())
+                ->with('user')
+                ->first();
+        }
+
+        return view('products-index', compact('product', 'topReviews', 'userReview'));
     }
 
     /**
