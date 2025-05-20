@@ -60,6 +60,11 @@ class Product extends Model
         return $this->belongsTo(Vendor::class, 'created_by', 'id');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
+    }
+
     protected static function boot()
     {
         parent::boot();

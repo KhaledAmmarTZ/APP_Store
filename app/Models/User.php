@@ -58,6 +58,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'date_of_birth' => 'date',
     ];
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'user_id', 'id');
+    }
+
     protected static function boot()
     {
         parent::boot();

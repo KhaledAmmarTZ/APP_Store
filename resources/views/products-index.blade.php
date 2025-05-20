@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-5">
     <!-- Title Section -->
-    <div class="text-center mb-5">
+    <div class="text-right mb-5">
         <h2 class="mb-3">{{ $product->product_name }}</h2>
         <p class="text-muted fs-5">Discover more about this product below.</p>
     </div>
@@ -71,5 +71,62 @@
         <h5 class="alert-heading">Note</h5>
         <p class="mb-0">All product information is provided and managed by the vendor. Please verify details before making any purchasing decision.</p>
     </div>
+    <!-- Review Section -->
+<div class="mt-5">
+    <h4>Submit Your Review</h4>
+
+    @auth
+        <form action="{{ route('reviews.store') }}" method="POST" class="border rounded p-4 shadow-sm mt-3">
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+            <style>
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    .star-rating label {
+        color: #ccc;
+        transition: color 0.2s;
+    }
+    .star-rating input[type="radio"]:checked ~ label {
+        color: #ffc107;
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: #ffc107;
+    }
+</style>
+
+<div class="mb-3">
+    <label class="form-label">Rating:</label>
+    <div class="star-rating">
+        @for ($i = 5; $i >= 1; $i--)
+            <input type="radio" name="rating" id="star{{ $i }}" value="{{ $i }}" required>
+            <label for="star{{ $i }}">&#9733;</label> {{-- ★ --}}
+        @endfor
+    </div>
+</div>
+
+
+            <div class="mb-3">
+                <label for="comment" class="form-label">Your Review:</label>
+                <textarea name="comment" id="comment" rows="3" class="form-control" placeholder="Write something..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+    @else
+        <div class="alert alert-warning mt-3">
+            Please <a href="{{ route('login') }}">login</a> to submit a review.
+        </div>
+    @endauth
+</div>
+
 </div>
 @endsection

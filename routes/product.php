@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Staff\ProductApprovalController;
+use App\Http\Controllers\ReviewController;
 
 Route::middleware(['auth:vendor'])->prefix('vendor')->name('vendor.')->group(function () {
     Route::resource('products', ProductController::class);
@@ -16,3 +17,5 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
 });
 
 Route::get('/products/{id}', [ProductController::class, 'indexforall'])->name('products-index');
+
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
