@@ -149,7 +149,7 @@
                             <span class="{{ $i <= $review->rating ? 'text-warning' : 'text-secondary' }}">&#9733;</span>
                         @endfor
                     </span>
-                    <small class="text-muted">{{ $review->created_at->diffForHumans() }}</small>
+                    <small class="text-muted">{{ $review->updated_at->diffForHumans() }}</small>
                 </div>
                 <div>{{ $review->comment }}</div>
             </div>
@@ -170,7 +170,7 @@
                                 <span class="{{ $i <= $userReview->rating ? 'text-warning' : 'text-secondary' }}">&#9733;</span>
                             @endfor
                         </span>
-                        <small class="text-muted">{{ $userReview->created_at->diffForHumans() }}</small>
+                        <small class="text-muted">{{ $userReview->updated_at->diffForHumans() }}</small>
                     </div>
                     <div>{{ $userReview->comment }}</div>
                 </div>
