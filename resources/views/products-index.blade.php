@@ -5,7 +5,39 @@
     <!-- Title Section -->
     <div class="text-right mb-5">
         <h2 class="mb-3">{{ $product->product_name }}</h2>
-        <p class="text-muted fs-5">Discover more about this product below.</p>
+
+        <div class="mb-2 d-inline-flex align-items-center">
+            <span class="star-rating-static ms-2">
+                @php
+                    $rating = $product->average_rating;
+                    $fullStars = floor($rating);
+                    $hasHalfStar = ($rating - $fullStars) >= 0.5;
+                    $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0);
+                @endphp
+
+                {{-- Full stars --}}
+                @for ($i = 0; $i < $fullStars; $i++)
+                    <label class="full">&#9733;</label>
+                @endfor
+
+                {{-- Half star --}}
+                @if ($hasHalfStar)
+                    <label class="half">
+                        &#9733;
+                        <span class="half-star">&#9733;</span>
+                    </label>
+                @endif
+
+                {{-- Empty stars --}}
+                @for ($i = 0; $i < $emptyStars; $i++)
+                    <label>&#9733;</label>
+                @endfor
+            </span>
+            <!-- <strong>Average Rating:</strong> -->
+            <span class="ms-1">{{ $product->average_rating }}</span>
+        </div>
+
+        <p class="text-muted fs-5 mt-3">Discover more about this product below.</p>
     </div>
 
     <!-- Product Details Section -->
@@ -37,43 +69,12 @@
                         : number_format($sizeInMB, 2) . ' MB';
                 @endphp
                 <li class="list-group-item"><strong>Size:</strong> {{ $sizeFormatted }}</li>
-
                 <li class="list-group-item"><strong>Developer:</strong> {{ $product->vendor->company_name ?? 'N/A' }}</li>
                 <li class="list-group-item"><strong>Platform:</strong> {{ ucfirst($product->platform) }}</li>
                 <li class="list-group-item"><strong>Type:</strong> {{ ucfirst($product->type) }}</li>
                 <li class="list-group-item"><strong>Total Sold:</strong> {{ $product->total_sold }}</li>
                 <li class="list-group-item"><strong>Total Rating:</strong> {{ $product->total_rating }}</li>
                 <li class="list-group-item"><strong>Total Reviews:</strong> {{ $product->total_review }}</li>
-                <li class="list-group-item">
-                    <strong>Average Rating:</strong> 
-                    {{ $product->average_rating }}
-                    <span class="star-rating-static">
-                        @php
-                            $rating = $product->average_rating;
-                            $fullStars = floor($rating);
-                            $hasHalfStar = ($rating - $fullStars) >= 0.5;
-                            $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0);
-                        @endphp
-
-                        {{-- Full stars --}}
-                        @for ($i = 0; $i < $fullStars; $i++)
-                            <label class="full">&#9733;</label>
-                        @endfor
-
-                        {{-- Half star --}}
-                        @if ($hasHalfStar)
-                            <label class="half">
-                                &#9733; {{-- base empty star in gray --}}
-                                <span class="half-star">&#9733;</span> {{-- gold half overlay --}}
-                            </label>
-                        @endif
-
-                        {{-- Empty stars --}}
-                        @for ($i = 0; $i < $emptyStars; $i++)
-                            <label>&#9733;</label>
-                        @endfor
-                    </span>
-                </li>
             </ul>
 
             <!-- Description -->

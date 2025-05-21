@@ -111,39 +111,38 @@ body:not(.dark-mode) .btn-dashboard:hover {
 }
 
 /* Static average star rating (non-interactive) */
-    .star-rating-static {
-        display: inline-flex;
-        font-size: 1.6rem;
-        user-select: none;
-        color: #ccc;
-        position: relative;
-        vertical-align: middle;
-    }
+.star-rating-static {
+    display: inline-flex;
+    font-size: 1.2rem;
+    user-select: none;
+    color: #ccc;
+    position: relative;
+}
 
-    .star-rating-static .full {
-        color: #ffc107;
-    }
+.star-rating-static .full {
+    color: #ffc107; /* Gold */
+}
 
-    .star-rating-static .half {
-        position: relative;
-        color: #ccc;
-    }
+.star-rating-static .half {
+    position: relative;
+    color: #ccc;
+}
 
-    .star-rating-static .half .half-star {
-        position: absolute;
-        overflow: hidden;
-        width: 50%;
-        top: 0;
-        left: 0;
-        color: #ffc107;
-    }
+.star-rating-static .half .half-star {
+    position: absolute;
+    overflow: hidden;
+    width: 50%;
+    top: 0;
+    left: 0;
+    color: #ffc107;
+}
 
-    .star-rating-static label {
-        margin-right: 2px;
-        position: relative;
-        display: inline-block;
-        line-height: 1;
-    }
+.star-rating-static label {
+    margin-right: 2px;
+    display: inline-block;
+    line-height: 1;
+}
+
 
     /* Interactive star rating (review form) */
     .star-rating {
