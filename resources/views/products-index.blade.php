@@ -49,7 +49,7 @@
                 class="img-fluid w-100 rounded shadow-sm" 
                 style="max-height: 500px;">
 
-                <h5 class="mt-4">{{ $product->product_description }}</h1>
+                <h5 class="mt-4">{{ $product->main_title }}</h1>
 
                 <div class="mb-3">
                     <h5>Categories</h5>
@@ -59,32 +59,115 @@
                         <span class="text-muted">No categories assigned</span>
                     @endforelse
                 </div>
+
+                <h5 class="mt-4">{{ $product->short_title }}</h5>
+                <h4 class="mt_4">{{$product->product_description}}</h4>
+
+                <h5 class="mt-4">Follow Us</h5>
+                <div class="d-flex">
+                    <a href="#" class="btn btn-primary me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-info me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="btn btn-danger me-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="btn btn-dark"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+
+                <h5 class="mt-4">KA Player Rating</h5>
+                <div class="mb-2 d-inline-flex align-items-center" style="font-size: 6rem;"> {{-- Increased size --}}
+                    <span class="star-rating-static ms-2" style="font-size: 6rem;"> {{-- Increased size --}}
+                        @php
+                            $rating = $product->average_rating;
+                            $fullStars = floor($rating);
+                            $hasHalfStar = ($rating - $fullStars) >= 0.5;
+                            $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0);
+                        @endphp
+
+                        {{-- Full stars --}}
+                        @for ($i = 0; $i < $fullStars; $i++)
+                            <label class="full">&#9733;</label>
+                        @endfor
+
+                        {{-- Half star --}}
+                        @if ($hasHalfStar)
+                            <label class="half">
+                                &#9733;
+                                <span class="half-star">&#9733;</span>
+                            </label>
+                        @endif
+
+                        {{-- Empty stars --}}
+                        @for ($i = 0; $i < $emptyStars; $i++)
+                            <label>&#9733;</label>
+                        @endfor
+                    </span>
+
+                    <span class="ms-2">{{ $product->average_rating }}</span>
+                </div>
+
+                <h5 class="mt-4">{{ $product->product_name }} Rating and Reviews</h5>
+
+                {{-- Top 3 Most Rated Reviews --}}
+                <div class="mt-5">
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        @forelse($topReviews as $review)
+                            <div class="col">
+                                <div class="card h-100 border rounded shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <strong>{{ $review->user->name ?? 'Unknown User' }}</strong>
+                                        </h5>
+                                        <p class="card-text">
+                                            
+                                                <h4 class="mt-4 d-inline-block me-2">
+                                                    {{ $review->rating }}/5
+                                                </h4>
+                                                <small class="text-muted d-inline-block">
+                                                    {{ $review->updated_at->diffForHumans() }}
+                                                </small>
+                                        </p>
+                                        <p class="card-text" style="text-size: 2rem">"{{ $review->comment }}"</p>
+                                        <div class="card-footer">
+                                            <h5> Read Full Review</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-muted">No reviews yet.</div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <h5 class="mt-4">{{ $product->product_name }} System Requirements</h5>
         </div>
 
         <!-- Product Info -->
         <div class="col-md-4">
 
+            <ul class="list-unstyled mt-4">
+                <li class="mb-2">
+                    <a href="#" class="btn btn-primary w-100">Get</a>
+                </li>
+                <li class="mb-2">
+                    <a href="#" class="btn btn-success w-100">Add to Cart</a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-warning w-100">Add to Wishlist</a>
+                </li>
+            </ul>
 
-            <!-- Description -->
-            <div class="mb-3">
-                <h5>Description</h5>
-                <p class="text-muted">{{ $product->product_description }}</p>
-            </div>
-
-            <!-- Categories -->
-            <div class="mb-3">
-                <h5>Categories</h5>
-                @forelse($product->categories as $category)
-                    <span class="badge bg-secondary me-1">{{ $category->category_name }}</span>
-                @empty
-                    <span class="text-muted">No categories assigned</span>
-                @endforelse
-            </div>
-
+            <p class="text"><strong>Developer:</strong> {{ $product->vendor->company_name }}</p>
             <!-- Dates -->
-            <p class="text-muted"><strong>Release Date:</strong> {{ \Carbon\Carbon::parse($product->release_date)->format('M d, Y') }}</p>
-            <p class="text-muted"><strong>Last Updated:</strong> {{ \Carbon\Carbon::parse($product->last_updated)->diffForHumans() }}</p>
-            <p class="text-muted"><strong>Update Patch:</strong> {{ $product->update_patch ?? 'None' }}</p>
+
+            <p class="text"><strong>Release Date:</strong> {{ \Carbon\Carbon::parse($product->release_date)->format('M d, Y') }}</p>
+            <p class="text"><strong>Last Updated:</strong> {{ \Carbon\Carbon::parse($product->last_updated)->diffForHumans() }}</p>
+            <p class="text"><strong>Update Patch:</strong> {{ $product->update_patch ?? 'None' }}</p>
+
+            <p class="text"><strong>Platform:</strong> {{ $product->platform }}</p>
+
+            <div class="d-flex gap-2 mt-3 w-100">
+                <button type="button" class="btn btn-primary flex-grow-1">Share</button>
+                <button type="button" class="btn btn-outline-danger flex-grow-1">Report</button>
+            </div>
         </div>
     </div>
 
