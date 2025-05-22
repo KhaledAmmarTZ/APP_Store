@@ -61,7 +61,7 @@
                 </div>
 
                 <h5 class="mt-4">{{ $product->short_title }}</h5>
-                <h4 class="mt_4">{{$product->product_description}}</h4>
+                <h4 class="mt-4">{!! nl2br(e($product->product_description)) !!}</h4>
 
                 <h5 class="mt-4">Follow Us</h5>
                 <div class="d-flex">

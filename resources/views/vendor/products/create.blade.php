@@ -50,7 +50,7 @@
             </div>
 
             <div>
-                <label class="block font-medium mb-1" for="main_title">Description</label>
+                <label class="block font-medium mb-1" for="main_title">Main Title</label>
                 <textarea
                     name="main_title"
                     id="main_title"
@@ -61,7 +61,7 @@
             </div>
 
             <div>
-                <label class="block font-medium mb-1" for="short_title">Description</label>
+                <label class="block font-medium mb-1" for="short_title">Short Title</label>
                 <textarea
                     name="short_title"
                     id="short_title"
