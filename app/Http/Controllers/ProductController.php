@@ -74,6 +74,8 @@ class ProductController extends Controller
     {
         $request->validate([
             'product_name' => 'required|string|max:255',
+            'main_title' => 'nullable|string|max:255',
+            'short_title' => 'nullable|string|max:255',
             'product_description' => 'nullable|string|max:65535',
             'product_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
@@ -110,6 +112,8 @@ class ProductController extends Controller
         $product = Product::create([
             'id' => $productId,
             'product_name' => $request->product_name,
+            'main_title' => $request->main_title,
+            'short_title' => $request->short_title,
             'product_description' => $request->product_description,
             'product_image' => $imagePath,
             'product_price' => $price,
@@ -190,6 +194,8 @@ class ProductController extends Controller
 
         $request->validate([
             'product_name' => 'required|string|max:255',
+            'main_title' => 'nullable|string|max:255',
+            'short_title' => 'nullable|string|max:255',
             'product_description' => 'nullable|string|max:65535',
             'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
@@ -216,6 +222,8 @@ class ProductController extends Controller
 
         $product->update([
             'product_name' => $request->product_name,
+            'main_title' => $request->main_title,
+            'short_title' => $request->short_title,
             'product_description' => $request->product_description,
             'product_price' => $price,
             'discount_percent' => $discount,

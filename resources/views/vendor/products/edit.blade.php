@@ -51,6 +51,28 @@
             </div>
 
             <div>
+                <label class="block font-medium mb-1" for="main_title">Description</label>
+                <textarea
+                    name="main_title"
+                    id="main_title"
+                    rows="4"
+                    class="w-full border border-gray-300 p-2 rounded"
+                    placeholder="Write product main title..."
+                >{{ old('main_title', $product->main_title) }}</textarea>
+            </div>
+
+            <div>
+                <label class="block font-medium mb-1" for="short_title">Description</label>
+                <textarea
+                    name="short_title"
+                    id="short_title"
+                    rows="4"
+                    class="w-full border border-gray-300 p-2 rounded"
+                    placeholder="Write product main title..."
+                >{{ old('short_title', $product->short_title) }}</textarea>
+            </div>
+
+            <div>
                 <label class="block font-medium mb-1" for="product_description">Description</label>
                 <textarea
                     name="product_description"

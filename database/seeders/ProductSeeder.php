@@ -31,6 +31,8 @@ class ProductSeeder extends Seeder
             $product = Product::create([
                 'id' => Str::random(15),
                 'product_name' => "Product $i",
+                'main_title' => "Main title for product $i",
+                'short_title' => "Short title for product $i",
                 'product_description' => "Description for product $i",
                 'product_image' => "product_image_$i.png",
                 'product_price' => $price,
