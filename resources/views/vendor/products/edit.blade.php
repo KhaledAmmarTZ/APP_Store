@@ -213,6 +213,43 @@
                 >{{ old('update_patch', $product->update_patch) }}</textarea>
             </div>
 
+            <div>
+                <label class="block font-medium mb-1" for="images">Product Images</label>
+                <div class="flex flex-wrap gap-2 mb-2">
+                    @foreach($product->images as $img)
+                        <div class="relative group">
+                            <img src="{{ asset('storage/' . $img->image_path) }}" alt="Product Image" class="w-24 h-24 object-cover rounded border" />
+                        </div>
+                    @endforeach
+                </div>
+                <div
+                    id="drop-area"
+                    class="w-full border-2 border-dashed border-gray-400 rounded p-4 text-center bg-gray-50 cursor-pointer"
+                    onclick="document.getElementById('images').click();"
+                    ondragover="event.preventDefault(); this.classList.add('bg-blue-50');"
+                    ondragleave="this.classList.remove('bg-blue-50');"
+                    ondrop="handleDrop(event);"
+                >
+                    <p class="text-gray-500">Drag & drop images here, or click to select</p>
+                    <input
+                        type="file"
+                        name="images[]"
+                        id="images"
+                        multiple
+                        accept="image/*"
+                        class="hidden"
+                    />
+                    <div id="image-preview" class="flex flex-wrap gap-2 mt-2"></div>
+                </div>
+                <p class="text-sm text-gray-500 mt-1">Add more images (hold Ctrl/Cmd to select multiple). Existing images can be deleted below.</p>
+                @error('images')
+                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+                @error('images.*')
+                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="text-right">
                 <button
                     type="submit"
@@ -222,7 +259,72 @@
                 </button>
             </div>
         </form>
+
+        <!-- Delete image forms OUTSIDE the main form -->
+        <div class="flex flex-wrap gap-2 mt-4">
+            @foreach($product->images as $img)
+                <div class="relative group">
+                    <img src="{{ asset('storage/' . $img->image_path) }}" alt="Product Image" class="w-24 h-24 object-cover rounded border" />
+                    <form action="{{ route('vendor.products.deleteImage', $img->id) }}" method="POST" class="absolute top-0 right-0">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-600 text-white rounded-full px-2 py-1 text-xs opacity-80 group-hover:opacity-100">X</button>
+                    </form>
+                </div>
+            @endforeach
+        </div>
     </div>
 
+    <script>
+        function handleDrop(event) {
+            event.preventDefault();
+            document.getElementById('drop-area').classList.remove('bg-blue-50');
+            const input = document.getElementById('images');
+            const dt = event.dataTransfer;
+            const files = dt.files;
+
+            // Merge dropped files with already selected files
+            let fileList = Array.from(input.files);
+            fileList = fileList.concat(Array.from(files));
+
+            // Remove duplicates by name (optional)
+            const uniqueFiles = [];
+            const names = new Set();
+            for (const file of fileList) {
+                if (!names.has(file.name)) {
+                    uniqueFiles.push(file);
+                    names.add(file.name);
+                }
+            }
+
+            // Create a new DataTransfer to update the input
+            const dataTransfer = new DataTransfer();
+            uniqueFiles.forEach(file => dataTransfer.items.add(file));
+            input.files = dataTransfer.files;
+
+            showImagePreview(uniqueFiles);
+        }
+
+        document.getElementById('images').addEventListener('change', function(event) {
+            showImagePreview(Array.from(event.target.files));
+        });
+
+        function showImagePreview(files) {
+            const preview = document.getElementById('image-preview');
+            preview.innerHTML = '';
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = "h-24 w-24 object-cover rounded border";
+                        preview.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

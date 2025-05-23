@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -15,29 +16,21 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // Get the logged-in vendor's ID
         $vendorId = Auth::guard('vendor')->id();
-
-        // Fetch all products belonging to this vendor
         $products = Product::where('created_by', $vendorId)->get();
-
-        // Pass products to the view
         return view('vendor.products.index', compact('products'));
     }
 
     public function adminindex()
     {
-
         $products = Product::all();
-
         return view('admin.products.index', compact('products'));
     }
 
     public function indexforall($id)
     {
-        $product = Product::with(['categories', 'vendor'])->where('status', 'active')->findOrFail($id);
+        $product = Product::with(['categories', 'vendor', 'images'])->where('status', 'active')->findOrFail($id);
 
-        // Top 2 reviews by rating (and most recent if tie)
         $topReviews = $product->reviews()
             ->with('user')
             ->orderByDesc('rating')
@@ -45,7 +38,6 @@ class ProductController extends Controller
             ->take(2)
             ->get();
 
-        // User's review (if logged in)
         $userReview = null;
         if (auth()->check()) {
             $userReview = $product->reviews()
@@ -56,7 +48,6 @@ class ProductController extends Controller
 
         return view('products-index', compact('product', 'topReviews', 'userReview'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -77,7 +68,8 @@ class ProductController extends Controller
             'main_title' => 'nullable|string|max:255',
             'short_title' => 'nullable|string|max:255',
             'product_description' => 'nullable|string|max:65535',
-            'product_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'images' => 'required|array|min:1',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
             'discount_percent' => 'nullable|numeric|min:0|max:100',
             'version' => 'required|string|max:255',
@@ -89,33 +81,21 @@ class ProductController extends Controller
             'update_patch' => 'nullable|string|max:65535',
         ]);
 
-        // Handle image upload
-        $imagePath = null;
-        if ($request->hasFile('product_image')) {
-            $imagePath = $request->file('product_image')->store('product_images', 'public');
-        }
-
         // Generate unique product ID
         do {
             $productId = Str::random(15);
         } while (Product::where('id', $productId)->exists());
 
-        // Ensure float values
         $price = floatval($request->product_price);
         $discount = floatval($request->discount_percent ?? 0);
+        $finalPrice = round($price - ($price * $discount / 100), 2);
 
-        // Calculate final price
-        $finalPrice = $price - ($price * $discount / 100);
-        $finalPrice = round($finalPrice, 2); 
-
-        // Create product
         $product = Product::create([
             'id' => $productId,
             'product_name' => $request->product_name,
             'main_title' => $request->main_title,
             'short_title' => $request->short_title,
             'product_description' => $request->product_description,
-            'product_image' => $imagePath,
             'product_price' => $price,
             'discount_percent' => $discount,
             'final_price' => $finalPrice,
@@ -128,28 +108,33 @@ class ProductController extends Controller
             'created_by' => Auth::guard('vendor')->id(),
             'total_sold' => 0,
             'total_rating' => 0,
-            // 'total_stock' => 0,
             'total_review' => 0,
             'average_rating' => 0,
             'last_updated' => now(),
-            'update_patch' => $request->update_patch, 
+            'update_patch' => $request->update_patch,
         ]);
 
         // Attach categories
         $product->categories()->attach($request->categories);
 
+        // Handle multiple image uploads
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('products', 'public');
+                $product->images()->create(['image_path' => $path]);
+            }
+        }
+
         return redirect()->route('vendor.products.create')->with('success', 'Product added successfully!');
     }
-
 
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
-        $product = Product::with(['categories', 'reviews.user'])->findOrFail($id);
+        $product = Product::with(['categories', 'reviews.user', 'images'])->findOrFail($id);
 
-        // Top 2 reviews by rating (and most recent if tie)
         $topReviews = $product->reviews()
             ->orderByDesc('rating')
             ->orderByDesc('created_at')
@@ -157,7 +142,6 @@ class ProductController extends Controller
             ->with('user')
             ->get();
 
-        // User's review (if logged in)
         $userReview = null;
         if (auth()->check()) {
             $userReview = $product->reviews()
@@ -182,7 +166,6 @@ class ProductController extends Controller
         return view('vendor.products.edit', compact('product', 'categories'));
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -197,7 +180,7 @@ class ProductController extends Controller
             'main_title' => 'nullable|string|max:255',
             'short_title' => 'nullable|string|max:255',
             'product_description' => 'nullable|string|max:65535',
-            'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
             'discount_percent' => 'nullable|numeric|min:0|max:100',
             'version' => 'required|string|max:255',
@@ -209,13 +192,14 @@ class ProductController extends Controller
             'update_patch' => 'nullable|string|max:65535',
         ]);
 
-        // If new image uploaded
-        if ($request->hasFile('product_image')) {
-            $imagePath = $request->file('product_image')->store('product_images', 'public');
-            $product->product_image = $imagePath;
+        // Add new images (existing images are not removed here)
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('products', 'public');
+                $product->images()->create(['image_path' => $path]);
+            }
         }
 
-        // Update other fields
         $price = floatval($request->product_price);
         $discount = floatval($request->discount_percent ?? 0);
         $finalPrice = round($price - ($price * $discount / 100), 2);
@@ -236,37 +220,43 @@ class ProductController extends Controller
             'last_updated' => now(),
         ]);
 
-        // Sync categories
         $product->categories()->sync($request->categories);
 
         return redirect()->route('vendor.products.index')->with('success', 'Product updated successfully.');
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product)
     {
-        //  Check ownership or status before deletion
         $vendorId = Auth::guard('vendor')->id();
 
         if ($product->created_by !== $vendorId) {
             return redirect()->route('vendor.products.index')->with('error', 'You do not have permission to delete this product.');
         }
 
-
-        // Delete the product image from storage if exists
-        if ($product->product_image && \Storage::disk('public')->exists($product->product_image)) {
-            \Storage::disk('public')->delete($product->product_image);
+        // Delete all product images from storage
+        foreach ($product->images as $img) {
+            if ($img->image_path && \Storage::disk('public')->exists($img->image_path)) {
+                \Storage::disk('public')->delete($img->image_path);
+            }
+            $img->delete();
         }
 
         $product->categories()->detach();
-
-        // Delete the product
         $product->delete();
 
         return redirect()->route('vendor.products.index')->with('success', 'Product deleted successfully.');
     }
-    
+
+    public function deleteImage($id)
+    {
+        $image = \App\Models\ProductImage::findOrFail($id);
+        if (\Storage::disk('public')->exists($image->image_path)) {
+            \Storage::disk('public')->delete($image->image_path);
+        }
+        $image->delete();
+        return back()->with('success', 'Image deleted successfully.');
+    }
 }

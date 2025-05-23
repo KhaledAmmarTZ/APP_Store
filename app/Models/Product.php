@@ -25,7 +25,6 @@ class Product extends Model
         'main_title',
         'short_title',
         'product_description',
-        'product_image',
         'product_price',
         'discount_percent',    
         'final_price',         
@@ -67,6 +66,10 @@ class Product extends Model
         return $this->hasMany(Review::class, 'product_id', 'id');
     }
 
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
     protected static function boot()
     {
         parent::boot();

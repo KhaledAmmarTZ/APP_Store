@@ -82,18 +82,44 @@
                 >{{ old('product_description') }}</textarea>
             </div>
 
-
-            <div>
-                <label class="block font-medium mb-1" for="product_image">Product Image</label>
+            <div class="mt-6">
+                <label class="block font-medium mb-1" for="images">Product Images</label>
                 <input
                     type="file"
-                    name="product_image"
-                    id="product_image"
+                    name="images[]"
+                    id="images"
+                    multiple
                     accept="image/*"
                     class="w-full border border-gray-300 p-2 rounded"
                     required
                 />
+                <div id="image-preview" class="flex flex-wrap gap-2 mt-2"></div>
+                @error('images')
+                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+                @error('images.*')
+                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+                <p class="text-sm text-gray-500 mt-1">You can select multiple images (hold Ctrl/Cmd).</p>
             </div>
+            <script>
+            document.getElementById('images').addEventListener('change', function(event) {
+                const preview = document.getElementById('image-preview');
+                preview.innerHTML = '';
+                Array.from(event.target.files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = "h-24 w-24 object-cover rounded border";
+                            preview.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+            </script>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -218,6 +244,7 @@
             </div>
         </form>
     </div>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 </body>
 </html>

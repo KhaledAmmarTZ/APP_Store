@@ -5,6 +5,7 @@ use App\Http\Controllers\ReviewController;
 
 Route::middleware(['auth:vendor'])->prefix('vendor')->name('vendor.')->group(function () {
     Route::resource('products', ProductController::class);
+    Route::delete('/products/image/{id}', [ProductController::class, 'deleteImage'])->name('products.deleteImage');
 });
 Route::middleware(['auth:staff'])->prefix('staff')->group(function () {
     Route::get('/products/pending', [ProductApprovalController::class, 'index'])->name('staff.products.pending');

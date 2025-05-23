@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('main_title')->nullable();
             $table->text('short_title')->nullable();
             $table->text('product_description')->nullable();
-            $table->string('product_image');
             $table->decimal('product_price', 10, 2); // Original price
             $table->decimal('discount_percent', 5, 2)->default(0); // Discount in percent
             $table->decimal('final_price', 10, 2)->default(0); // Final price after discount

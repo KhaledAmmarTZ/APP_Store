@@ -34,7 +34,6 @@ class ProductSeeder extends Seeder
                 'main_title' => "Main title for product $i",
                 'short_title' => "Short title for product $i",
                 'product_description' => "Description for product $i",
-                'product_image' => "product_image_$i.png",
                 'product_price' => $price,
                 'discount_percent' => $discount,
                 'final_price' => $finalPrice,
