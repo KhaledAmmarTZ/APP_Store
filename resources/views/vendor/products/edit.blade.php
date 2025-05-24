@@ -7,324 +7,215 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-100">
+<div class="container mx-auto py-10 px-4 max-w-4xl bg-white rounded shadow">
+    <a href="{{ route('vendor.dashboard') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Vendor Dashboard
+        </a>
+    <h2 class="text-3xl font-bold mb-6">Edit Product</h2>
 
-    <div class="container mx-auto py-10 px-4 max-w-4xl bg-white rounded shadow">
-        <h2 class="text-3xl font-bold mb-6">Edit Product</h2>
+    @if(session('success'))
+        <div class="bg-green-100 text-green-700 p-4 rounded mb-4">{{ session('success') }}</div>
+    @endif
 
-        @if(session('success'))
-            <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
+    @if(session('error'))
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">{{ session('error') }}</div>
+    @endif
 
-        @if(session('error'))
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                <ul class="list-disc pl-5">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('vendor.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-            @csrf
-            @method('PUT')
-
-            <div>
-                <label class="block font-medium mb-1" for="product_name">Product Name</label>
-                <input
-                    type="text"
-                    name="product_name"
-                    id="product_name"
-                    value="{{ old('product_name', $product->product_name) }}"
-                    class="w-full border border-gray-300 p-2 rounded"
-                    placeholder="Enter product name"
-                    required
-                />
-            </div>
-
-            <div>
-                <label class="block font-medium mb-1" for="main_title">Main Title</label>
-                <textarea
-                    name="main_title"
-                    id="main_title"
-                    rows="4"
-                    class="w-full border border-gray-300 p-2 rounded"
-                    placeholder="Write product main title..."
-                >{{ old('main_title', $product->main_title) }}</textarea>
-            </div>
-
-            <div>
-                <label class="block font-medium mb-1" for="short_title">Short Title</label>
-                <textarea
-                    name="short_title"
-                    id="short_title"
-                    rows="4"
-                    class="w-full border border-gray-300 p-2 rounded"
-                    placeholder="Write product main title..."
-                >{{ old('short_title', $product->short_title) }}</textarea>
-            </div>
-
-            <div>
-                <label class="block font-medium mb-1" for="product_description">Description</label>
-                <textarea
-                    name="product_description"
-                    id="product_description"
-                    rows="4"
-                    class="w-full border border-gray-300 p-2 rounded"
-                    placeholder="Write product description..."
-                >{{ old('product_description', $product->product_description) }}</textarea>
-            </div>
-
-            <div>
-                <label class="block font-medium mb-1" for="product_image">Product Image</label>
-                @if ($product->product_image)
-                    <div class="mb-2">
-                        <img src="{{ asset('storage/' . $product->product_image) }}" alt="Current Image" class="w-32 h-auto rounded border" />
-                    </div>
-                @endif
-                <input
-                    type="file"
-                    name="product_image"
-                    id="product_image"
-                    accept="image/*"
-                    class="w-full border border-gray-300 p-2 rounded"
-                />
-                <p class="text-sm text-gray-500 mt-1">Leave blank if you don't want to change the image</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block font-medium mb-1" for="product_price">Price ($)</label>
-                    <input
-                        type="number"
-                        step="0.01"
-                        name="product_price"
-                        id="product_price"
-                        value="{{ old('product_price', $product->product_price) }}"
-                        class="w-full border border-gray-300 p-2 rounded"
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label class="block font-medium mb-1" for="discount_percent">Discount ($)</label>
-                    <input
-                        type="number"
-                        step="0.01"
-                        name="discount_percent"
-                        id="discount_percent"
-                        value="{{ old('discount_percent', $product->discount_percent) }}"
-                        class="w-full border border-gray-300 p-2 rounded"
-                    />
-                </div>
-
-                <div>
-                    <label class="block font-medium mb-1" for="version">Version</label>
-                    <input
-                        type="text"
-                        name="version"
-                        id="version"
-                        value="{{ old('version', $product->version) }}"
-                        class="w-full border border-gray-300 p-2 rounded"
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label class="block font-medium mb-1" for="size_in_mb">Size (MB)</label>
-                    <input
-                        type="number"
-                        step="0.01"
-                        name="size_in_mb"
-                        id="size_in_mb"
-                        value="{{ old('size_in_mb', $product->size_in_mb) }}"
-                        class="w-full border border-gray-300 p-2 rounded"
-                    />
-                </div>
-
-                <div>
-                    <label class="block font-medium mb-1" for="platform">Platform</label>
-                    <select
-                        name="platform"
-                        id="platform"
-                        class="w-full border border-gray-300 p-2 rounded"
-                        required
-                    >
-                        <option value="" disabled {{ old('platform', $product->platform) ? '' : 'selected' }}>Select platform</option>
-                        <option value="web" {{ old('platform', $product->platform) == 'web' ? 'selected' : '' }}>Web</option>
-                        <option value="android" {{ old('platform', $product->platform) == 'android' ? 'selected' : '' }}>Android</option>
-                        <option value="ios" {{ old('platform', $product->platform) == 'ios' ? 'selected' : '' }}>iOS</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block font-medium mb-1" for="type">Type</label>
-                    <select
-                        name="type"
-                        id="type"
-                        class="w-full border border-gray-300 p-2 rounded"
-                        required
-                    >
-                        <option value="" disabled {{ old('type', $product->type) ? '' : 'selected' }}>Select type</option>
-                        <option value="free" {{ old('type', $product->type) == 'free' ? 'selected' : '' }}>Free</option>
-                        <option value="paid" {{ old('type', $product->type) == 'paid' ? 'selected' : '' }}>Paid</option>
-                    </select>
-                </div>
-            </div>
-
-            <div>
-                <label for="categories" class="block font-medium mb-1">Categories</label>
-                <select
-                    name="categories[]"
-                    id="categories"
-                    class="w-full border border-gray-300 p-2 rounded"
-                    multiple
-                    required
-                >
-                    @forelse($categories as $category)
-                        <option
-                            value="{{ $category->id }}"
-                            {{ (collect(old('categories', $product->categories->pluck('id')->toArray()))->contains($category->id)) ? 'selected' : '' }}
-                        >
-                            {{ $category->category_name }}
-                        </option>
-                    @empty
-                        <option disabled>No categories found</option>
-                    @endforelse
-                </select>
-                <p class="text-sm text-gray-500 mt-1">Hold Ctrl (or Cmd) to select multiple categories</p>
-            </div>
-
-            <div>
-                <label class="block font-medium mb-1" for="update_patch">Update Patch Notes</label>
-                <textarea
-                    name="update_patch"
-                    id="update_patch"
-                    rows="3"
-                    class="w-full border border-gray-300 p-2 rounded"
-                >{{ old('update_patch', $product->update_patch) }}</textarea>
-            </div>
-
-            <div>
-                <label class="block font-medium mb-1" for="images">Product Images</label>
-                <div class="flex flex-wrap gap-2 mb-2">
-                    @foreach($product->images as $img)
-                        <div class="relative group">
-                            <img src="{{ asset('storage/' . $img->image_path) }}" alt="Product Image" class="w-24 h-24 object-cover rounded border" />
-                        </div>
-                    @endforeach
-                </div>
-                <div
-                    id="drop-area"
-                    class="w-full border-2 border-dashed border-gray-400 rounded p-4 text-center bg-gray-50 cursor-pointer"
-                    onclick="document.getElementById('images').click();"
-                    ondragover="event.preventDefault(); this.classList.add('bg-blue-50');"
-                    ondragleave="this.classList.remove('bg-blue-50');"
-                    ondrop="handleDrop(event);"
-                >
-                    <p class="text-gray-500">Drag & drop images here, or click to select</p>
-                    <input
-                        type="file"
-                        name="images[]"
-                        id="images"
-                        multiple
-                        accept="image/*"
-                        class="hidden"
-                    />
-                    <div id="image-preview" class="flex flex-wrap gap-2 mt-2"></div>
-                </div>
-                <p class="text-sm text-gray-500 mt-1">Add more images (hold Ctrl/Cmd to select multiple). Existing images can be deleted below.</p>
-                @error('images')
-                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
-                @enderror
-                @error('images.*')
-                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="text-right">
-                <button
-                    type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded"
-                >
-                    Update
-                </button>
-            </div>
-        </form>
-
-        <!-- Delete image forms OUTSIDE the main form -->
-        <div class="flex flex-wrap gap-2 mt-4">
-            @foreach($product->images as $img)
-                <div class="relative group">
-                    <img src="{{ asset('storage/' . $img->image_path) }}" alt="Product Image" class="w-24 h-24 object-cover rounded border" />
-                    <form action="{{ route('vendor.products.deleteImage', $img->id) }}" method="POST" class="absolute top-0 right-0">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-600 text-white rounded-full px-2 py-1 text-xs opacity-80 group-hover:opacity-100">X</button>
-                    </form>
-                </div>
-            @endforeach
+    @if ($errors->any())
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
+    @endif
+
+    <form action="{{ route('vendor.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        @csrf
+        @method('PUT')
+
+        @php
+            $inputClass = "w-full border border-gray-300 rounded px-4 py-2";
+            $labelClass = "block text-gray-700 font-semibold mb-1";
+        @endphp
+
+        <div>
+            <label class="{{ $labelClass }}">Product Name:</label>
+            <input type="text" name="product_name" value="{{ old('product_name', $product->product_name) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Main Title:</label>
+            <input type="text" name="main_title" value="{{ old('main_title', $product->main_title) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Short Title:</label>
+            <input type="text" name="short_title" value="{{ old('short_title', $product->short_title) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Description:</label>
+            <textarea name="product_description" class="{{ $inputClass }}" rows="4">{{ old('product_description', $product->product_description) }}</textarea>
+        </div>
+
+        <!-- Main Image Section -->
+        <div>
+            <label class="{{ $labelClass }}">Main Image:</label>
+            @php
+                $mainImage = $product->images->where('status', 'main')->first();
+            @endphp
+            @if($mainImage)
+                <div class="relative inline-block mb-3">
+                    <img src="{{ asset('storage/' . $mainImage->image_path) }}" alt="Main Image" class="w-32 h-32 object-cover rounded border">
+                </div>
+            @endif
+            <input type="file" name="main_image" accept="image/*" onchange="previewMainImage(event)" class="block">
+            <div id="mainImagePreview" class="mt-2"></div>
+        </div>
+
+        <!-- Sub Images Section -->
+        <div>
+            <label class="{{ $labelClass }}">Existing Sub Images:</label>
+            <div id="existingSubImages" class="flex flex-wrap gap-4 mb-3">
+                @foreach ($product->images->where('status', 'sub') as $img)
+                    <div class="relative inline-block">
+                        <img src="{{ asset('storage/' . $img->image_path) }}" alt="Sub Image" class="w-24 h-24 object-cover rounded border">
+                    </div>
+                @endforeach
+            </div>
+            <label class="{{ $labelClass }}">Add New Sub Images:</label>
+            <input type="file" name="sub_images[]" accept="image/*" multiple onchange="previewSubImages(event)" class="block">
+            <div id="subImagesPreview" class="flex flex-wrap gap-2 mt-2"></div>
+        </div>
+
+        <!-- Other Fields -->
+        <div>
+            <label class="{{ $labelClass }}">Price:</label>
+            <input type="number" step="0.01" name="product_price" value="{{ old('product_price', $product->product_price) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Discount %:</label>
+            <input type="number" step="0.01" name="discount_percent" value="{{ old('discount_percent', $product->discount_percent) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Final Price:</label>
+            <input type="number" step="0.01" name="final_price" value="{{ old('final_price', $product->final_price) }}" class="{{ $inputClass }}" readonly>
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Version:</label>
+            <input type="text" name="version" value="{{ old('version', $product->version) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Size in MB:</label>
+            <input type="number" step="0.01" name="size_in_mb" value="{{ old('size_in_mb', $product->size_in_mb) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Platform:</label>
+            <select name="platform" class="{{ $inputClass }}">
+                <option value="android" {{ old('platform', $product->platform) == 'android' ? 'selected' : '' }}>Android</option>
+                <option value="ios" {{ old('platform', $product->platform) == 'ios' ? 'selected' : '' }}>iOS</option>
+                <option value="web" {{ old('platform', $product->platform) == 'web' ? 'selected' : '' }}>Web</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Type:</label>
+            <select name="type" class="{{ $inputClass }}">
+                <option value="free" {{ old('type', $product->type) == 'free' ? 'selected' : '' }}>Free</option>
+                <option value="paid" {{ old('type', $product->type) == 'paid' ? 'selected' : '' }}>Paid</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="categories" class="block font-medium text-gray-700 mb-1">Categories:</label>
+            <select name="categories[]" id="categories" multiple class="w-full border border-gray-300 p-2 rounded mb-4">
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" 
+                        {{ in_array($category->id, old('categories', $product->categories->pluck('id')->toArray())) ? 'selected' : '' }}>
+                        {{ $category->category_name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Release Date:</label>
+            <input type="date" name="release_date" value="{{ old('release_date', $product->release_date) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Status:</label>
+            <select name="status" class="{{ $inputClass }}">
+                <option value="active" {{ old('status', $product->status) == 'active' ? 'selected' : '' }}>Active</option>
+                <option value="inactive" {{ old('status', $product->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="{{ $labelClass }}">Update Patch:</label>
+            <input type="text" name="update_patch" value="{{ old('update_patch', $product->update_patch) }}" class="{{ $inputClass }}">
+        </div>
+
+        <div>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Update Product</button>
+        </div>
+    </form>
+
+    <!-- Delete sub images OUTSIDE the main form -->
+    <div class="flex flex-wrap gap-4 mt-4">
+        @foreach ($product->images->where('status', 'sub') as $img)
+            <div class="relative inline-block">
+                <img src="{{ asset('storage/' . $img->image_path) }}" alt="Sub Image" class="w-24 h-24 object-cover rounded border">
+                <form action="{{ route('vendor.products.deleteImage', $img->id) }}" method="POST" class="absolute top-0 right-0">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-600 text-white rounded-full px-2 py-1 text-xs opacity-80 hover:opacity-100" title="Delete">
+                        &times;
+                    </button>
+                </form>
+            </div>
+        @endforeach
     </div>
+</div>
 
-    <script>
-        function handleDrop(event) {
-            event.preventDefault();
-            document.getElementById('drop-area').classList.remove('bg-blue-50');
-            const input = document.getElementById('images');
-            const dt = event.dataTransfer;
-            const files = dt.files;
+<script>
+    // Preview newly selected main image
+    function previewMainImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const preview = document.getElementById("mainImagePreview");
+            preview.innerHTML = "";
+            const img = document.createElement("img");
+            img.src = reader.result;
+            img.className = "w-32 h-32 object-cover rounded border";
+            preview.appendChild(img);
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
 
-            // Merge dropped files with already selected files
-            let fileList = Array.from(input.files);
-            fileList = fileList.concat(Array.from(files));
-
-            // Remove duplicates by name (optional)
-            const uniqueFiles = [];
-            const names = new Set();
-            for (const file of fileList) {
-                if (!names.has(file.name)) {
-                    uniqueFiles.push(file);
-                    names.add(file.name);
-                }
-            }
-
-            // Create a new DataTransfer to update the input
-            const dataTransfer = new DataTransfer();
-            uniqueFiles.forEach(file => dataTransfer.items.add(file));
-            input.files = dataTransfer.files;
-
-            showImagePreview(uniqueFiles);
+    // Preview newly selected sub images
+    function previewSubImages(event) {
+        const files = event.target.files;
+        const preview = document.getElementById("subImagesPreview");
+        preview.innerHTML = "";
+        for (let i = 0; i < files.length; i++) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const img = document.createElement("img");
+                img.src = reader.result;
+                img.className = "w-24 h-24 object-cover rounded border";
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(files[i]);
         }
-
-        document.getElementById('images').addEventListener('change', function(event) {
-            showImagePreview(Array.from(event.target.files));
-        });
-
-        function showImagePreview(files) {
-            const preview = document.getElementById('image-preview');
-            preview.innerHTML = '';
-            files.forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.className = "h-24 w-24 object-cover rounded border";
-                        preview.appendChild(img);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        }
-    </script>
+    }
+</script>
 </body>
 </html>

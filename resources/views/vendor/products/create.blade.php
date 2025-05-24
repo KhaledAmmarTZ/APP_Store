@@ -9,6 +9,9 @@
 <body class="bg-gray-100">
 
     <div class="container mx-auto py-10 px-4 max-w-4xl bg-white rounded shadow">
+        <a href="{{ route('vendor.dashboard') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Vendor Dashboard
+        </a>
         <h2 class="text-3xl font-bold mb-6">Add New Product</h2>
 
         @if(session('success'))
@@ -83,28 +86,62 @@
             </div>
 
             <div class="mt-6">
-                <label class="block font-medium mb-1" for="images">Product Images</label>
+                <label class="block font-medium mb-1" for="main_image">Main Product Image</label>
                 <input
                     type="file"
-                    name="images[]"
-                    id="images"
-                    multiple
+                    name="main_image"
+                    id="main_image"
                     accept="image/*"
                     class="w-full border border-gray-300 p-2 rounded"
                     required
                 />
-                <div id="image-preview" class="flex flex-wrap gap-2 mt-2"></div>
-                @error('images')
+                <div id="main-image-preview" class="flex flex-wrap gap-2 mt-2"></div>
+                @error('main_image')
                     <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
                 @enderror
-                @error('images.*')
-                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
-                @enderror
-                <p class="text-sm text-gray-500 mt-1">You can select multiple images (hold Ctrl/Cmd).</p>
+                <p class="text-sm text-gray-500 mt-1">Select the main image for your product.</p>
             </div>
             <script>
-            document.getElementById('images').addEventListener('change', function(event) {
-                const preview = document.getElementById('image-preview');
+            document.getElementById('main_image').addEventListener('change', function(event) {
+                const preview = document.getElementById('main-image-preview');
+                preview.innerHTML = '';
+                Array.from(event.target.files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = "h-24 w-24 object-cover rounded border";
+                            preview.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+            </script>
+
+            <div class="mt-6">
+                <label class="block font-medium mb-1" for="sub_images">Sub Images (Gallery)</label>
+                <input
+                    type="file"
+                    name="sub_images[]"
+                    id="sub_images"
+                    multiple
+                    accept="image/*"
+                    class="w-full border border-gray-300 p-2 rounded"
+                />
+                <div id="sub-image-preview" class="flex flex-wrap gap-2 mt-2"></div>
+                @error('sub_images')
+                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+                @error('sub_images.*')
+                    <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                @enderror
+                <p class="text-sm text-gray-500 mt-1">You can select multiple sub images (hold Ctrl/Cmd).</p>
+            </div>
+            <script>
+            document.getElementById('sub_images').addEventListener('change', function(event) {
+                const preview = document.getElementById('sub-image-preview');
                 preview.innerHTML = '';
                 Array.from(event.target.files).forEach(file => {
                     if (file.type.startsWith('image/')) {

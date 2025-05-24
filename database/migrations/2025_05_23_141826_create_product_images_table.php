@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('product_id', 15);
             $table->string('image_path');
+            $table->enum('status', ['main','sub'])->default('main');
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

@@ -9,6 +9,12 @@
 <body class="bg-gray-100">
 
 <div class="container mx-auto py-10 px-4 max-w-6xl bg-white rounded shadow">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">My Products</h1>
+        <a href="{{ route('vendor.dashboard') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Vendor Dashboard
+        </a>
+    </div>
     <h1 class="text-3xl font-bold mb-6">My Products</h1>
 
     @if(session('success'))
@@ -35,7 +41,14 @@
                 @foreach($products as $product)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="py-2 px-4">
-                        <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_name }}" class="w-16 h-16 object-cover rounded" />
+                        @php
+                            $mainImage = $product->images->where('status', 'main')->first();
+                        @endphp
+                        @if($mainImage)
+                            <img src="{{ asset('storage/' . $mainImage->image_path) }}" alt="{{ $product->product_name }}" class="w-16 h-16 object-cover rounded" />
+                        @else
+                            <span class="text-gray-400 italic">No image</span>
+                        @endif
                     </td>
                     <td class="py-2 px-4">{{ $product->product_name }}</td>
                     <td class="py-2 px-4">${{ number_format($product->product_price, 2) }}</td>

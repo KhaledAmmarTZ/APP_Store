@@ -68,8 +68,8 @@ class ProductController extends Controller
             'main_title' => 'nullable|string|max:255',
             'short_title' => 'nullable|string|max:255',
             'product_description' => 'nullable|string|max:65535',
-            'images' => 'required|array|min:1',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'main_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'sub_images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
             'discount_percent' => 'nullable|numeric|min:0|max:100',
             'version' => 'required|string|max:255',
@@ -117,14 +117,25 @@ class ProductController extends Controller
         // Attach categories
         $product->categories()->attach($request->categories);
 
-        // Handle multiple image uploads
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('products', 'public');
-                $product->images()->create(['image_path' => $path]);
-            }
+        // Save main image
+        if ($request->hasFile('main_image')) {
+            $mainPath = $request->file('main_image')->store('products', 'public');
+            $product->images()->create([
+                'image_path' => $mainPath,
+                'status' => 'main',
+            ]);
         }
 
+        // Save sub images
+        if ($request->hasFile('sub_images')) {
+            foreach ($request->file('sub_images') as $subImage) {
+                $subPath = $subImage->store('products', 'public');
+                $product->images()->create([
+                    'image_path' => $subPath,
+                    'status' => 'sub',
+                ]);
+            }
+        }
         return redirect()->route('vendor.products.create')->with('success', 'Product added successfully!');
     }
 
@@ -163,6 +174,10 @@ class ProductController extends Controller
         }
 
         $categories = Category::all();
+
+        // load categories relation to avoid N+1 problem in blade
+        $product->load('categories');
+
         return view('vendor.products.edit', compact('product', 'categories'));
     }
 
@@ -180,7 +195,8 @@ class ProductController extends Controller
             'main_title' => 'nullable|string|max:255',
             'short_title' => 'nullable|string|max:255',
             'product_description' => 'nullable|string|max:65535',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'sub_images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
             'discount_percent' => 'nullable|numeric|min:0|max:100',
             'version' => 'required|string|max:255',
@@ -192,11 +208,26 @@ class ProductController extends Controller
             'update_patch' => 'nullable|string|max:65535',
         ]);
 
-        // Add new images (existing images are not removed here)
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('products', 'public');
-                $product->images()->create(['image_path' => $path]);
+        // Update main image if uploaded
+        if ($request->hasFile('main_image')) {
+            // Set all existing images to sub
+            $product->images()->update(['status' => 'sub']);
+            // Store new main image
+            $mainPath = $request->file('main_image')->store('products', 'public');
+            $product->images()->create([
+                'image_path' => $mainPath,
+                'status' => 'main',
+            ]);
+        }
+
+        // Add new sub images
+        if ($request->hasFile('sub_images')) {
+            foreach ($request->file('sub_images') as $subImage) {
+                $subPath = $subImage->store('products', 'public');
+                $product->images()->create([
+                    'image_path' => $subPath,
+                    'status' => 'sub',
+                ]);
             }
         }
 
