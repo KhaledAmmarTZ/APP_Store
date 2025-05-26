@@ -4,9 +4,13 @@ use App\Http\Controllers\Staff\ProductApprovalController;
 use App\Http\Controllers\ReviewController;
 
 Route::middleware(['auth:vendor'])->prefix('vendor')->name('vendor.')->group(function () {
+    Route::get('/products/{id}/individual', [ProductController::class, 'showVendor'])->name('products.individual'); // <- should be before resource
+
     Route::resource('products', ProductController::class);
+
     Route::delete('/products/image/{id}', [ProductController::class, 'deleteImage'])->name('products.deleteImage');
 });
+
 Route::middleware(['auth:staff'])->prefix('staff')->group(function () {
     Route::get('/products/pending', [ProductApprovalController::class, 'index'])->name('staff.products.pending');
     Route::post('/products/{product}/approve', [ProductApprovalController::class, 'approve'])->name('staff.products.approve');

@@ -26,6 +26,17 @@ class ProductController extends Controller
         $products = Product::all();
         return view('admin.products.index', compact('products'));
     }
+    
+    public function showVendor($id)
+    {
+        $vendorId = Auth::guard('vendor')->id();
+        $product = Product::with(['categories', 'images'])
+            ->where('id', $id)
+            ->where('created_by', $vendorId)
+            ->firstOrFail();
+
+        return view('vendor.products.individual', compact('product'));
+    }
 
     public function indexforall($id)
     {
