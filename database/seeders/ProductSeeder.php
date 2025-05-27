@@ -12,18 +12,17 @@ class ProductSeeder extends Seeder
 {
     public function run()
     {
-        // Get all categories
+
         $categories = Category::all();
 
-        // Get vendor(s) to assign products to
-        $vendor = Vendor::first(); // Use first available vendor
+        $vendor = Vendor::first(); //first vendor
 
         if (!$vendor) {
             $this->command->error('No vendors found! Please seed vendors first.');
             return;
         }
 
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $price = rand(100, 1000);
             $discount = rand(0, 50);
             $finalPrice = $price - ($price * $discount / 100);
