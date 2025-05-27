@@ -334,7 +334,18 @@
 
 
 
-
+<script>
+    window.featuredProductImages = [
+        @foreach($featuredProducts as $product)
+            @php
+                $mainImage = $product->images->first();
+            @endphp
+            @if($mainImage)
+                "{{ asset('storage/' . $mainImage->image_path) }}",
+            @endif
+        @endforeach
+    ];
+</script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/script.js') }}" defer></script>

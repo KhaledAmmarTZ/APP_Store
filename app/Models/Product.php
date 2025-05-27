@@ -41,6 +41,7 @@ class Product extends Model
         'total_stock',
         'total_review',
         'average_rating',
+        'is_featured',
         'last_updated',
         'update_patch',
     ];

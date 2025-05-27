@@ -99,14 +99,7 @@ keyframes.push('}');
 
 styleSheet.innerHTML = keyframes.join('');
 
-const images = [
-    'System_image/game1.jpg',
-    'System_image/game2.jpg',
-    'System_image/game3.jpg',
-    'System_image/game4.jpg',
-    'System_image/game5.jpg',
-    'System_image/game6.jpg'
-];
+const images = window.featuredProductImages || [];
 
 const carouselItemsContainer = document.getElementById('carouselItems');
 const thumbnailCardsContainer = document.getElementById('thumbnailCards');
