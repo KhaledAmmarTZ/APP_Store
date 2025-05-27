@@ -9,7 +9,8 @@
 <body class="bg-gray-100">
 
 <div class="container mx-auto py-10 px-4 max-w-6xl bg-white rounded shadow">
-    <h1 class="text-3xl font-bold mb-6">ALL Products</h1>
+<a href="{{ route('admin.dashboard') }}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-4">Back to My Products</a>    
+<h1 class="text-3xl font-bold mb-6">ALL Products</h1>
 
     @if(session('success'))
         <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
@@ -40,7 +41,14 @@
                 @foreach($products as $product)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="py-2 px-4">
-                        <img src="{{ asset('storage/' . $product->product_image) }}" alt="{{ $product->product_name }}" class="w-16 h-16 object-cover rounded" />
+                        @php
+                            $mainImage = $product->images->where('status', 'main')->first();
+                        @endphp
+                        @if($mainImage)
+                            <img src="{{ asset('storage/' . $mainImage->image_path) }}" alt="Main Image" class="w-50 h-25 object-cover rounded-xl border mb-2">
+                        @else
+                            <span class="text-gray-400 italic">No main image</span>
+                        @endif
                     </td>
                     <td class="py-2 px-4">{{ $product->product_name }}</td>
                     <td class="py-2 px-4">{{ $product->id }}</td>

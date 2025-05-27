@@ -22,6 +22,7 @@
 
 <div class="container mt-4">
     <a href="{{ url('/') }}" class="btn btn-primary">Go to Welcome Page</a>
+    <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">View All Products</a>
 </div>
 
 @endsection

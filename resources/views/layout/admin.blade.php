@@ -16,6 +16,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
+            body {
+      overflow-x: hidden;
+    }
+    .sidebar {
+      height: 100vh;
+      width: 250px;
+      background-color: #f8f9fa;
+      border-right: 1px solid #dee2e6;
+      padding-top: 1rem;
+    }
+    .sidebar .nav-link {
+      color: #333;
+    }
+    .sidebar .nav-link.active {
+      background-color: #007bff;
+      color: #fff !important;
+    }
+    .sidebar .nav-link i {
+      margin-right: 8px;
+    }
+
         .background-image {
             position: fixed;
             top: 0;
@@ -88,7 +109,42 @@
                     </form>
                 </div>
             </nav>
-        
+        <div class="d-flex">
+  <div class="sidebar d-flex flex-column p-3">
+    <a href="#" class="d-flex align-items-center mb-3 text-decoration-none">
+      <i class="fab fa-bootstrap fa-lg mr-2"></i>
+      <span class="font-weight-bold">Sidebar</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="#" class="nav-link active">
+          <i class="fas fa-home"></i> Home
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="fas fa-table"></i> Orders
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="fas fa-box"></i> Products
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="fas fa-users"></i> Customers
+        </a>
+      </li>
+    </ul>
+    <hr>
+  </div>
                 <!-- Main Content Section -->
                 <div class="col p-3 main-content">
                         @yield('content')
