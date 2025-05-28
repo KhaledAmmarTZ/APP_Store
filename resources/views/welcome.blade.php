@@ -1,3 +1,4 @@
+
 @extends('layout.home')
 
 @section('content')
@@ -116,7 +117,6 @@
 <!-- Section: Discover New Apps -->
 <div class="container my-4">
     <div class="row align-items-center justify-content-between">
-        <!-- Left Section: Text and Icon -->
         <div class="col">
             <span style="font-size: 1.5rem; font-weight: bold;">
                 Discover new apps and games 
@@ -125,58 +125,57 @@
                 </a>
             </span>
         </div>
-
-        <!-- Right Section: Navigation Buttons -->
         <div class="col-auto">
-            <a href="#" class="btn btn-outline-secondary btn-sm me-2" title="Previous">
+            <button class="btn btn-outline-secondary btn-sm me-2" type="button" data-bs-target="#discoverCarousel" data-bs-slide="prev" title="Previous">
                 &lt;
-            </a>
-            <a href="#" class="btn btn-outline-secondary btn-sm" title="Next">
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-target="#discoverCarousel" data-bs-slide="next" title="Next">
                 &gt;
-            </a>
+            </button>
         </div>
     </div>
 
-    <!-- Card Grid -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4 mt-3">
-        @php
-            $titles = ['Clash of Clans', 'Call of Duty', 'PUBG Mobile', 'Among Us', 'Genshin Impact'];
-            $price = ['$0.99', '$1.99', '$2.99', '$3.99', '$4.99'];
-            $discount_price = ['$0.56', '$1.4', '$2.22', '$3.34', '$1.99'];
-        @endphp
-
-        @for ($i = 0; $i < 5; $i++)
-            <div class="col">
-                <a href="/details/{{ $titles[$i] }}" class="text-decoration-none theme-link">
-                    <div class="card h-100 bg-transparent theme-link">
-                        <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $titles[$i] }}</h5>
-                            <div class="col d-12 d-flex justify-content-between align-items-center">
-                                <p class="card-text text-muted" style="font-weight: bold; text-decoration: line-through">{{ $price[$i] }}</p>
-                                <p class="card-text" style="font-weight: bold;">{{ $discount_price[$i] }}</p>
+    <!-- discover new apps carousel -->
+    <div id="discoverCarousel" class="carousel slide mt-3" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @foreach($sliderProducts->chunk(5) as $chunkIndex => $productChunk)
+                <div class="carousel-item {{ $chunkIndex === 0 ? 'active' : '' }}">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+                        @foreach($productChunk as $product)
+                            @php
+                                $mainImage = $product->images->first();
+                                $discount = $product->product_price - $product->final_price;
+                            @endphp
+                            <div class="col">
+                                <a href="{{ url('/products/' . $product->id) }}" class="text-decoration-none theme-link">
+                                    <div class="card h-100 bg-transparent theme-link">
+                                        @if($mainImage)
+                                            <img src="{{ asset('storage/' . $mainImage->image_path) }}" class="card-img-top" alt="{{ $product->product_name }}" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                                        @else
+                                            <img src="{{ asset('images/default.jpg') }}" class="card-img-top" alt="No Image" style="border-radius: 10px; height: 260px; object-fit: cover;">
+                                        @endif
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $product->product_name }}</h5>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="card-text text-muted" style="text-decoration: line-through;">
+                                                    ৳{{ number_format($product->product_price, 2) }}
+                                                </span>
+                                                <span class="card-text fw-bold">
+                                                    ৳{{ number_format($product->final_price, 2) }}
+                                                </span>
+                                            </div>
+                                            <!-- <div class="text-danger" style="font-size:0.9rem;">
+                                                Discount: ৳{{ number_format($discount, 2) }}
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        @endfor
-    </div>
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4 mt-3">
-    @for ($i = 0; $i < 3; $i++)
-        <div class="col">
-            <a href="/details/{{ $titles[$i] }}" class="text-decoration-none theme-link">
-                <div class="card h-100 bg-transparent theme-link">
-                    <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top" alt="App Screenshot" style="border-radius: 10px; height: 260px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $titles[$i] }}</h5>
-                        <p class="card-text " style="font-weight: bold;">{{ $price[$i] }}</p>                
+                        @endforeach
                     </div>
                 </div>
-            </a>
+            @endforeach
         </div>
-    @endfor
     </div>
 </div>
 
