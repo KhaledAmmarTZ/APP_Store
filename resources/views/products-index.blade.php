@@ -44,10 +44,28 @@
     <div class="row align-items-right">
         <!-- Product Image -->
         <div class="col-md-8 text-right mb-4">
-            <img src="{{ asset('storage/' . $product->product_image) }}" 
-                alt="{{ $product->product_name }}" 
-                class="img-fluid w-100 rounded shadow-sm" 
-                style="max-height: 500px;">
+            <div id="productImagesCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach($product->images as $key => $image)
+                        <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                alt="{{ $product->product_name }}"
+                                class="img-fluid w-100 rounded shadow-sm"
+                                style="max-height: 500px;">
+                        </div>
+                    @endforeach
+                </div>
+                    @if($product->images->count() > 1)
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productImagesCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productImagesCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    @endif
+                </div>
 
                 <h5 class="mt-4">{{ $product->main_title }}</h1>
 

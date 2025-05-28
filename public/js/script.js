@@ -64,7 +64,7 @@ window.addEventListener('DOMContentLoaded', () => {
             offcanvas.style.color = '#000000';
 
             themeLinks.forEach(link => {
-                link.style.color = '#000000'; 
+                link.style.color = '#000000';
             });
 
             // Modal rules light style
@@ -99,27 +99,35 @@ keyframes.push('}');
 
 styleSheet.innerHTML = keyframes.join('');
 
-const images = window.featuredProductImages || [];
+const products = window.featuredProductData || [];
 
 const carouselItemsContainer = document.getElementById('carouselItems');
 const thumbnailCardsContainer = document.getElementById('thumbnailCards');
 
-images.forEach((image, index) => {
+products.forEach((product, index) => {
     const carouselItem = document.createElement('div');
     carouselItem.classList.add('carousel-item');
     if (index === 0) {
         carouselItem.classList.add('active');
     }
 
+    // Create link
+    const link = document.createElement('a');
+    link.href = `/products/${product.id}`; // Adjust route if needed
+
+    // Create image
     const carouselImg = document.createElement('img');
-    carouselImg.src = image;
+    carouselImg.src = product.image;
     carouselImg.classList.add('d-block', 'w-100');
     carouselImg.style.objectFit = 'cover';
     carouselImg.style.height = '100%';
     carouselImg.style.borderRadius = '1px';
-    carouselItem.appendChild(carouselImg);
+
+    link.appendChild(carouselImg);
+    carouselItem.appendChild(link);
     carouselItemsContainer.appendChild(carouselItem);
 
+    // Thumbnails (make each a link)
     const thumbnailCard = document.createElement('div');
     thumbnailCard.classList.add('card');
     thumbnailCard.style.maxHeight = '120px';
@@ -129,8 +137,12 @@ images.forEach((image, index) => {
     thumbnailCard.style.position = 'relative';
     thumbnailCard.style.borderColor = 'transparent';
 
+    // Create link for thumbnail
+    const thumbLink = document.createElement('a');
+    thumbLink.href = `/products/${product.id}`; // Link to product info page
+
     const thumbnailImg = document.createElement('img');
-    thumbnailImg.src = image;
+    thumbnailImg.src = product.image;
     thumbnailImg.classList.add('card-img-top');
     thumbnailImg.alt = '...';
     thumbnailImg.style.objectFit = 'cover';
@@ -140,13 +152,14 @@ images.forEach((image, index) => {
     thumbnailImg.setAttribute('data-bs-target', '#mainCarousel');
     thumbnailImg.setAttribute('data-bs-slide-to', index.toString());
 
-    thumbnailCard.appendChild(thumbnailImg);
+    thumbLink.appendChild(thumbnailImg);
+    thumbnailCard.appendChild(thumbLink);
     thumbnailCardsContainer.appendChild(thumbnailCard);
 });
 
 const mainCarousel = document.getElementById('mainCarousel');
 mainCarousel.addEventListener('slide.bs.carousel', function (event) {
-    images.forEach((_, i) => {
+    products.forEach((_, i) => {
         const thumb = document.getElementById('thumbnail-' + i).parentElement;
         thumb.classList.remove('thumbnail-active');
     });
@@ -189,6 +202,6 @@ document.addEventListener('DOMContentLoaded', function () {
 document.getElementById('backToTopButton').addEventListener('click', function () {
     window.scrollTo({
         top: 0,
-        behavior: 'smooth' 
+        behavior: 'smooth'
     });
 });
