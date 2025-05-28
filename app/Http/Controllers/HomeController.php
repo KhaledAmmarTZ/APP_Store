@@ -19,6 +19,15 @@ class HomeController extends Controller
         ->take(10)
         ->get();
 
-        return view('welcome', compact('featuredProducts', 'sliderProducts'));
+        $discountProducts = Product::with(['images' => function($q) {
+            $q->where('status', 'main');
+        }])
+        ->whereColumn('product_price', '>', 'final_price')
+        ->orderByRaw('(product_price - final_price) DESC')
+        ->take(10)
+        ->get();
+        // dd($discountProducts->count(), $discountProducts->pluck('id'));
+
+        return view('welcome', compact('featuredProducts', 'sliderProducts', 'discountProducts'));
     }
 }
