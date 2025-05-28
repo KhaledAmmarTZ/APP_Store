@@ -113,7 +113,7 @@ products.forEach((product, index) => {
 
     // Create link
     const link = document.createElement('a');
-    link.href = `/products/${product.id}`; // Adjust route if needed
+    link.href = `/products/${product.id}`; // Adjust route 
 
     // Create image
     const carouselImg = document.createElement('img');
@@ -127,7 +127,7 @@ products.forEach((product, index) => {
     carouselItem.appendChild(link);
     carouselItemsContainer.appendChild(carouselItem);
 
-    // Thumbnails (make each a link)
+    // Thumbnails (optional)
     const thumbnailCard = document.createElement('div');
     thumbnailCard.classList.add('card');
     thumbnailCard.style.maxHeight = '120px';
@@ -136,10 +136,6 @@ products.forEach((product, index) => {
     thumbnailCard.style.cursor = 'pointer';
     thumbnailCard.style.position = 'relative';
     thumbnailCard.style.borderColor = 'transparent';
-
-    // Create link for thumbnail
-    const thumbLink = document.createElement('a');
-    thumbLink.href = `/products/${product.id}`; // Link to product info page
 
     const thumbnailImg = document.createElement('img');
     thumbnailImg.src = product.image;
@@ -152,8 +148,7 @@ products.forEach((product, index) => {
     thumbnailImg.setAttribute('data-bs-target', '#mainCarousel');
     thumbnailImg.setAttribute('data-bs-slide-to', index.toString());
 
-    thumbLink.appendChild(thumbnailImg);
-    thumbnailCard.appendChild(thumbLink);
+    thumbnailCard.appendChild(thumbnailImg);
     thumbnailCardsContainer.appendChild(thumbnailCard);
 });
 
