@@ -54,6 +54,9 @@
                             <a href="{{ route('staff.products.pending') }}" class="btn btn-success">
                                 View Pending Product Approvals
                             </a>
+                            <a href="{{ route('staff.products.featured.index') }}" class="btn btn-info">
+                                View Featured Products
+                            </a>
                         </div>
                 </div>
             </div>

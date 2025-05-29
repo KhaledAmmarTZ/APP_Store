@@ -274,7 +274,6 @@
     </div>
 </div>
 
-
 <div class="container my-4">
   <div class="bg-dark text-white p-4 rounded-4">
     <!-- Header with Icon -->
@@ -287,34 +286,36 @@
 
     <!-- Cards Row -->
     <div class="row g-3">
-      <!-- Card 1 -->
-      <div class="col-md-4">
-        <div class="card bg-dark text-white border-radius-3">
-          <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top rounded-top" alt="Albion">
-          <div class="bg-primary text-center py-1 fw-bold rounded-bottom">FREE NOW</div>
-          <div class="card-body px-0">
-            <h6 class="card-title mb-1">Albion Online Free Welcome Gift</h6>
-            <p class="card-text small">Free Now – May 01 at 09:00 PM</p>
+      @forelse($freeProducts as $product)
+        @php
+            $mainImage = $product->images->first();
+        @endphp
+        <div class="col-md-4">
+          <div class="card bg-dark text-white border-0 h-100">
+            @if($mainImage)
+              <img src="{{ asset('storage/' . $mainImage->image_path) }}" class="card-img-top rounded-top" alt="{{ $product->product_name }}" style="height: 220px; object-fit: cover;">
+            @else
+              <img src="{{ asset('images/default.jpg') }}" class="card-img-top rounded-top" alt="No Image" style="height: 220px; object-fit: cover;">
+            @endif
+            <div class="bg-primary text-center py-1 fw-bold rounded-bottom">FREE NOW</div>
+            <div class="card-body px-0">
+              <h6 class="card-title mb-1">{{ $product->product_name }}</h6>
+              <p class="card-text small">
+                {{ $product->description ? Str::limit($product->description, 40) : 'Free for a limited time!' }}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="col-md-4">
-        <div class="card bg-dark text-white border-0">
-          <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top rounded-top" alt="CHUCHEL">
-          <div class="bg-primary text-center py-1 fw-bold rounded-bottom">FREE NOW</div>
-          <div class="card-body px-0">
-            <h6 class="card-title mb-1">CHUCHEL</h6>
-            <p class="card-text small">Free Now – May 01 at 09:00 PM</p>
-          </div>
+      @empty
+        <div class="col-12">
+          <div class="alert alert-info">No free games available right now.</div>
         </div>
-      </div>
+      @endforelse
 
-      <!-- Card 3 -->
+      <!-- Coming Soon Card -->
       <div class="col-md-4">
-        <div class="card bg-dark text-white border-0">
-          <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top rounded-top" alt="Super Space Club">
+        <div class="card bg-dark text-white border-0 h-100">
+          <img src="{{ asset('System_image/game5.jpg') }}" class="card-img-top rounded-top" alt="Super Space Club" style="height: 220px; object-fit: cover;">
           <div class="bg-black text-center py-1 fw-bold rounded-bottom">COMING SOON</div>
           <div class="card-body px-0">
             <h6 class="card-title mb-1">Super Space Club</h6>

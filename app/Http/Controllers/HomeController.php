@@ -28,6 +28,18 @@ class HomeController extends Controller
         ->get();
         // dd($discountProducts->count(), $discountProducts->pluck('id'));
 
-        return view('welcome', compact('featuredProducts', 'sliderProducts', 'discountProducts'));
+        $freeProducts = \App\Models\Product::with(['images' => function($q) {
+            $q->where('status', 'main');
+        }])
+        ->where('is_free', 'yes')
+        ->take(2)
+        ->get();
+
+        return view('welcome', compact(
+            'featuredProducts',
+            'sliderProducts',
+            'discountProducts',
+            'freeProducts' // add this
+        ));
     }
 }

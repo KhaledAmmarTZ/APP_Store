@@ -27,7 +27,8 @@
         <button type="submit">Save Featured Products</button>
     </form>
 </div>
-
+<a href="{{ route('staff.dashboard') }}" class="btn btn-secondary" style="margin-top: 20px;">Back to dashboard
+</a>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const featuredLimit = 6;
