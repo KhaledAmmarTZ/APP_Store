@@ -46,6 +46,7 @@ return new class extends Migration
             $table->decimal('average_rating', 3, 2)->default(0)->unsigned()->nullable();
 
             $table->enum('is_featured', ['yes', 'no'])->default('no');
+            $table->enum('is_free', ['yes', 'no'])->default('no');
 
             $table->date('last_updated')->nullable();
             $table->text('update_patch')->nullable();

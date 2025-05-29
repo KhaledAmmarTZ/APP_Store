@@ -42,6 +42,7 @@ class Product extends Model
         'total_review',
         'average_rating',
         'is_featured',
+        'is_free',
         'last_updated',
         'update_patch',
     ];

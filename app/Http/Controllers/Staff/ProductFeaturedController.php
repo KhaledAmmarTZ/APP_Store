@@ -27,14 +27,20 @@ class ProductFeaturedController extends Controller
         $request->validate([
             'featured_ids' => 'array|max:6',
             'featured_ids.*' => 'exists:products,id',
+            'free_ids' => 'array',
+            'free_ids.*' => 'exists:products,id',
         ]);
 
-        Product::query()->update(['is_featured' => 'no']);
+        Product::query()->update(['is_featured' => 'no', 'is_free' => 'no']);
 
         if ($request->has('featured_ids')) {
             Product::whereIn('id', $request->featured_ids)->update(['is_featured' => 'yes']);
         }
 
-        return back()->with('success', 'Featured products updated successfully.');
+        if ($request->has('free_ids')) {
+            Product::whereIn('id', $request->free_ids)->update(['is_free' => true]);
+        }
+
+        return back()->with('success', 'Featured and free products updated successfully.');
     }
 }
