@@ -291,20 +291,22 @@
             $mainImage = $product->images->first();
         @endphp
         <div class="col-md-4">
-          <div class="card bg-dark text-white border-0 h-100">
-            @if($mainImage)
-              <img src="{{ asset('storage/' . $mainImage->image_path) }}" class="card-img-top rounded-top" alt="{{ $product->product_name }}" style="height: 220px; object-fit: cover;">
-            @else
-              <img src="{{ asset('images/default.jpg') }}" class="card-img-top rounded-top" alt="No Image" style="height: 220px; object-fit: cover;">
-            @endif
-            <div class="bg-primary text-center py-1 fw-bold rounded-bottom">FREE NOW</div>
-            <div class="card-body px-0">
-              <h6 class="card-title mb-1">{{ $product->product_name }}</h6>
-              <p class="card-text small">
-                {{ $product->description ? Str::limit($product->description, 40) : 'Free for a limited time!' }}
-              </p>
+            <a href="{{ url('/products/' . $product->id) }}" class="text-decoration-none theme-link">
+            <div class="card bg-dark text-white border-0 h-100">
+                @if($mainImage)
+                <img src="{{ asset('storage/' . $mainImage->image_path) }}" class="card-img-top rounded-top" alt="{{ $product->product_name }}" style="height: 220px; object-fit: cover;">
+                @else
+                <img src="{{ asset('images/default.jpg') }}" class="card-img-top rounded-top" alt="No Image" style="height: 220px; object-fit: cover;">
+                @endif
+                <div class="bg-primary text-center py-1 fw-bold rounded-bottom">FREE NOW</div>
+                <div class="card-body px-0">
+                <h6 class="card-title mb-1">{{ $product->product_name }}</h6>
+                <p class="card-text small">
+                    {{ $product->description ? Str::limit($product->description, 40) : 'Free for a limited time!' }}
+                </p>
+                </div>
             </div>
-          </div>
+            </a>
         </div>
       @empty
         <div class="col-12">
