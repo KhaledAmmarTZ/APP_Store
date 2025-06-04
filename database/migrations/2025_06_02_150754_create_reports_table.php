@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id', 20);
+            $table->string('product_id', 15);
+            $table->text('reason')->nullable();
+            $table->timestamp('reported_at')->useCurrent();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
