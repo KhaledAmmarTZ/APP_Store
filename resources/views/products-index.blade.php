@@ -269,5 +269,34 @@
             @endif
         </div>
     @endauth
+
+    <!-- Report Form Section -->
+    <div class="mt-5">
+        <h4>Report Product</h4>
+
+        @auth
+            <form action="{{ route('reports.store') }}" method="POST" class="border rounded p-4 shadow-sm mt-3">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reason for Reporting:</label>
+                    <textarea name="reason" id="reason" rows="3" class="form-control" placeholder="Optional: Describe the reason for reporting this product"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-danger">Submit Report</button>
+            </form>
+        @else
+            <div class="alert alert-warning mt-3">
+                Please <a href="{{ route('login') }}">login</a> to report a product.
+            </div>
+        @endauth
+
+        @if(session('success'))
+            <div class="alert alert-success mt-2">{{ session('success') }}</div>
+        @endif
+        @if(session('error'))
+            <div class="alert alert-danger mt-2">{{ session('error') }}</div>
+        @endif
+    </div>
 </div>
 @endsection

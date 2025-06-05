@@ -3,7 +3,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Staff\ProductApprovalController;
 use App\Http\Controllers\Staff\ProductFeaturedController;
 use App\Http\Controllers\ReviewController;
-
+use App\Http\Controllers\ReportController;
 
 Route::middleware(['auth:vendor'])->prefix('vendor')->name('vendor.')->group(function () {
     Route::get('/products/{id}/individual', [ProductController::class, 'showVendor'])->name('products.individual'); // <- should be before resource
@@ -28,3 +28,4 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
 Route::get('/products/{id}', [ProductController::class, 'indexforall'])->name('products-index');
 
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
