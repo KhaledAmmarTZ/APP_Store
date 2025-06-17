@@ -295,7 +295,34 @@
             <div class="alert alert-success mt-2">{{ session('success') }}</div>
         @endif
         @if(session('error'))
-            <div class="alert alert-danger mt-2">{{ session('error') }}</div>
+            <div class="alert alert-danger mt-2">
+                {{ session('error') }}
+                @if(session('report_wait_seconds'))
+                    <br>
+                    <span id="report-timer"></span>
+                    <script>
+                        let seconds = Math.floor({{ session('report_wait_seconds') }});
+                        function formatTime(s) {
+                            let h = Math.floor(s / 3600);
+                            let m = Math.floor((s % 3600) / 60);
+                            let sec = s % 60;
+                            return `${h}h ${m}m ${sec}s`;
+                        }
+                        function updateTimer() {
+                            if (seconds > 0) {
+                                document.getElementById('report-timer').innerText = 
+                                    'You can report again in: ' + formatTime(seconds);
+                                seconds--;
+                                setTimeout(updateTimer, 1000);
+                            } else {
+                                document.getElementById('report-timer').innerText = 
+                                    'You can now report again.';
+                            }
+                        }
+                        updateTimer();
+                    </script>
+                @endif
+            </div>
         @endif
     </div>
 </div>

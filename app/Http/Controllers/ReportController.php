@@ -45,7 +45,17 @@ class ReportController extends Controller
             ->first();
 
         if ($recentReport) {
-            return back()->with('error', 'You have already reported this product within the last 24 hours.');
+            $nextReportTime = Carbon::parse($recentReport->reported_at)->addDay();
+            $now = Carbon::now();
+            $diffInSeconds = $now->diffInSeconds($nextReportTime, false);
+
+            // Only show timer if still waiting
+            if ($diffInSeconds > 0) {
+                return back()->with([
+                    'error' => 'You have already reported this product within the last 24 hours.',
+                    'report_wait_seconds' => $diffInSeconds,
+                ]);
+            }
         }
 
         Report::create([
