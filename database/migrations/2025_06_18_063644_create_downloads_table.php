@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('downloads', function (Blueprint $table) {
             $table->id();
-            $table->string('ReceiptNo', 20)->unique();
             $table->string('user_id', 20);
             $table->string('product_id', 15);
             $table->timestamp('downloaded_at')->useCurrent();
