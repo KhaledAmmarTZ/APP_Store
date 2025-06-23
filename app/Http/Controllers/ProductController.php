@@ -210,6 +210,7 @@ class ProductController extends Controller
             'main_title' => 'nullable|string|max:255',
             'short_title' => 'nullable|string|max:255',
             'product_description' => 'nullable|string|max:65535',
+            'app_file' => 'nullable|file', // 50MB |mimes:apk,ipa,zip
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'sub_images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
@@ -246,6 +247,15 @@ class ProductController extends Controller
             }
         }
 
+         if ($request->hasFile('app_file')) {
+            // Optionally, delete the old file
+            if ($product->app_file && \Storage::disk('public')->exists($product->app_file)) {
+                \Storage::disk('public')->delete($product->app_file);
+            }
+            $path = $request->file('app_file')->store('apps', 'public');
+            $product->app_file = $path;
+        }
+        
         $price = floatval($request->product_price);
         $discount = floatval($request->discount_percent ?? 0);
         $finalPrice = round($price - ($price * $discount / 100), 2);

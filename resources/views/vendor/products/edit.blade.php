@@ -164,6 +164,19 @@
         </div>
 
         <div>
+            <label class="{{ $labelClass }}">App File:</label>
+            @if($product->app_file)
+                <div class="mb-2">
+                    <a href="{{ asset('storage/' . $product->app_file) }}" class="text-blue-600 underline" target="_blank">
+                        Download Current App File
+                    </a>
+                </div>
+            @endif
+            <input type="file" name="app_file" class="block">
+            <p class="text-sm text-gray-500 mt-1">Leave blank to keep the current file.</p>
+        </div>
+
+        <div>
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Update Product</button>
         </div>
     </form>
