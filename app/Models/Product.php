@@ -25,6 +25,7 @@ class Product extends Model
         'main_title',
         'short_title',
         'product_description',
+        'app_file',
         'product_price',
         'discount_percent',    
         'final_price',

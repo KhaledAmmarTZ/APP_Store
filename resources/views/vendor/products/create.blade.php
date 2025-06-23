@@ -270,6 +270,11 @@
                     class="w-full border border-gray-300 p-2 rounded"
                 >{{ old('update_patch') }}</textarea>
             </div>
+            
+            <div class="mb-3">
+                <label for="app_file" class="form-label">App File (APK/IPA/ZIP):</label>
+                <input type="file" name="app_file" id="app_file" class="form-control" required>
+            </div>
 
             <div class="text-right">
                 <button

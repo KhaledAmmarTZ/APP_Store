@@ -79,6 +79,7 @@ class ProductController extends Controller
             'main_title' => 'nullable|string|max:255',
             'short_title' => 'nullable|string|max:255',
             'product_description' => 'nullable|string|max:65535',
+            'app_file' => 'required|file', // 50MB |mimes:apk,ipa,zip
             'main_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'sub_images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'product_price' => 'required|numeric|min:0|max:99999999.99',
@@ -96,6 +97,8 @@ class ProductController extends Controller
         do {
             $productId = Str::random(15);
         } while (Product::where('id', $productId)->exists());
+
+        $path = $request->file('app_file')->store('apps', 'public');
 
         $price = floatval($request->product_price);
         $discount = floatval($request->discount_percent ?? 0);
@@ -123,6 +126,7 @@ class ProductController extends Controller
             'average_rating' => 0,
             'last_updated' => now(),
             'update_patch' => $request->update_patch,
+            'app_file' => $path,
         ]);
 
         // Attach categories
