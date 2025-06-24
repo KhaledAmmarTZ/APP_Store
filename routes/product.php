@@ -6,10 +6,8 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReportController;
 
 Route::middleware(['auth:vendor'])->prefix('vendor')->name('vendor.')->group(function () {
-    Route::get('/products/{id}/individual', [ProductController::class, 'showVendor'])->name('products.individual'); // <- should be before resource
-
+    Route::get('/products/{id}/individual', [ProductController::class, 'showVendor'])->name('products.individual');
     Route::resource('products', ProductController::class);
-
     Route::delete('/products/image/{id}', [ProductController::class, 'deleteImage'])->name('products.deleteImage');
 });
 
