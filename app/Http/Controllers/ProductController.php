@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Category;
+use App\Models\Product_app_backups;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -247,8 +248,16 @@ class ProductController extends Controller
             }
         }
 
-         if ($request->hasFile('app_file')) {
-            // Optionally, delete the old file
+        if ($request->hasFile('app_file')) {
+            if ($product->app_file && $product->version) {
+                Product_app_backups::create([
+                    'product_id' => $product->id,
+                    'app_file' => $product->app_file,
+                    'version' => $product->version,
+                    'backed_up_at' => now(),
+                ]);
+            }
+            // delete the old file
             if ($product->app_file && \Storage::disk('public')->exists($product->app_file)) {
                 \Storage::disk('public')->delete($product->app_file);
             }
