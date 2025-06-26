@@ -250,9 +250,17 @@ class ProductController extends Controller
 
         if ($request->hasFile('app_file')) {
             if ($product->app_file && $product->version) {
+                $backupFileName = $product->id . '_' . $product->version . '_' . basename($product->app_file);
+                $backupPath = 'app_backup/' . $backupFileName;
+
+                if (\Storage::disk('public')->exists($product->app_file)) {
+                    $fileContents = \Storage::disk('public')->get($product->app_file);
+                    \Storage::disk('public')->put($backupPath, $fileContents);
+                }
+
                 Product_app_backups::create([
-                    'product_id' => $product->id,
-                    'app_file' => $product->app_file,
+                    'product_id' => $product->id,   
+                    'app_file' => $backupPath, 
                     'version' => $product->version,
                     'backed_up_at' => now(),
                 ]);
