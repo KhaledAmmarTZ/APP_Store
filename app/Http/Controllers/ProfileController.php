@@ -29,7 +29,6 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        // Handle file upload for user_image
         if ($request->hasFile('user_image')) {
             if ($user->user_image) {
                 Storage::delete($user->user_image);
@@ -38,7 +37,6 @@ class ProfileController extends Controller
             $user->user_image = $request->file('user_image')->store('user_images', 'public');
         }
 
-        // Update other fields, including name and email
         $user->fill($request->only([
             'name',
             'email',
@@ -50,7 +48,6 @@ class ProfileController extends Controller
 
         $user->save();
 
-        // Redirect to the profile page
         return redirect()->route('profile.edit')->with('success', 'Profile updated successfully.');
     }
 
@@ -72,7 +69,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Redirect to the home page after account deletion
         return Redirect::to('/');
     }
 }

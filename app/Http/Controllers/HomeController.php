@@ -39,7 +39,7 @@ class HomeController extends Controller
             'featuredProducts',
             'sliderProducts',
             'discountProducts',
-            'freeProducts' // add this
+            'freeProducts' 
         ));
     }
 }
