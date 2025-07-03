@@ -68,17 +68,17 @@
                 <div class="position-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2">
-                            <a class="nav-link active" href="{{ route('vendor.dashboard') }}">
+                            <a class="nav-link {{ request()->routeIs('vendor.dashboard') ? 'active' : '' }}" href="{{ route('vendor.dashboard') }}">
                                 <i class="bi bi-house"></i> Dashboard
                             </a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a class="nav-link" href="{{ route('vendor.products.index') }}">
+                            <a class="nav-link {{ request()->routeIs('vendor.products.index') ? 'active' : '' }}" href="{{ route('vendor.products.index') }}">
                                 <i class="bi bi-box"></i> My Products
                             </a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a class="nav-link" href="{{ route('vendor.products.create') }}">
+                            <a class="nav-link {{ request()->routeIs('vendor.products.create') ? 'active' : '' }}" href="{{ route('vendor.products.create') }}">
                                 <i class="bi bi-plus-circle"></i> Add Product
                             </a>
                         </li>
